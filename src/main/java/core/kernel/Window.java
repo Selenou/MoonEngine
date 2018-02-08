@@ -1,5 +1,6 @@
-package core;
+package core.kernel;
 
+import core.input.Input;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.*;
 
@@ -14,7 +15,7 @@ public class Window {
 
     public void create(int width, int height) {
         // Setup an error callback. The default implementation will print the error message in System.err.
-        GLFWErrorCallback.createPrint(System.err);
+        GLFWErrorCallback.createPrint(System.err).set();
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
         if (!glfwInit()) {
@@ -22,8 +23,11 @@ public class Window {
         }
 
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         this.window = glfwCreateWindow(width, height, "Moon Engine", NULL, NULL);
 
@@ -49,11 +53,12 @@ public class Window {
         // Make the window visible
         glfwShowWindow(this.window);
 
+        Input input = new Input(this.window);
+
         // Run the rendering loop until the user has attempted to close the window
         while(!this.isCloseRequested()) {
             this.render();
-            // Poll for window events. The key callback above will only be invoked during this call.
-            glfwPollEvents();
+            input.update();
         }
 
         this.dispose();
@@ -88,6 +93,5 @@ public class Window {
         System.out.println("Max Uniform Block Size: " + GL31.GL_MAX_UNIFORM_BLOCK_SIZE + " bytes");
         System.out.println("Max SSBO Block Size: " + GL43.GL_MAX_SHADER_STORAGE_BLOCK_SIZE + " bytes");
     }
-
 }
 
