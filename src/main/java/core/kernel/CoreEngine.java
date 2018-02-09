@@ -3,9 +3,6 @@ package core.kernel;
 import core.input.Input;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL31;
-import org.lwjgl.opengl.GL40;
-import org.lwjgl.opengl.GL43;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -24,11 +21,11 @@ public class CoreEngine {
         this.window = new Window();
         this.window.create(width, height);
 
+        System.out.println("OpenGL version: " + GL11.glGetString(GL11.GL_VERSION));
+
         this.input = new Input(this.window.getWindow());
 
         this.isRunning = false;
-
-        this.getGLProperties();
     }
 
     private void initGLFW() {
@@ -87,7 +84,7 @@ public class CoreEngine {
                 this.update();
 
                 if(frameCounter >= Time.SECOND) {
-                    System.out.println("FPS : " + frames);
+                    //System.out.println("FPS : " + frames);
                     frames = 0;
                     frameCounter = 0;
                 }
@@ -123,14 +120,5 @@ public class CoreEngine {
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
-    }
-
-    private void getGLProperties(){
-        System.out.println("OpenGL version: " + GL11.glGetString(GL11.GL_VERSION) + " bytes");
-        System.out.println("Max Geometry Uniform Blocks: " + GL31.GL_MAX_GEOMETRY_UNIFORM_BLOCKS+ " bytes");
-        System.out.println("Max Geometry Shader Invocations: " + GL40.GL_MAX_GEOMETRY_SHADER_INVOCATIONS + " bytes");
-        System.out.println("Max Uniform Buffer Bindings: " + GL31.GL_MAX_UNIFORM_BUFFER_BINDINGS + " bytes");
-        System.out.println("Max Uniform Block Size: " + GL31.GL_MAX_UNIFORM_BLOCK_SIZE + " bytes");
-        System.out.println("Max SSBO Block Size: " + GL43.GL_MAX_SHADER_STORAGE_BLOCK_SIZE + " bytes");
     }
 }
