@@ -1,8 +1,6 @@
 package core.kernel;
 
-import core.input.Input;
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -14,14 +12,6 @@ public class Window {
     private long window;
 
     public void create(int width, int height) {
-        // Setup an error callback. The default implementation will print the error message in System.err.
-        GLFWErrorCallback.createPrint(System.err).set();
-
-        // Initialize GLFW. Most GLFW functions will not work before doing this.
-        if (!glfwInit()) {
-            throw new IllegalStateException("Unable to initialize GLFW");
-        }
-
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -45,23 +35,14 @@ public class Window {
         // bindings available for use.
         GL.createCapabilities();
 
-        this.getDeviceProperties();
+        // Vsync
+        glfwSwapInterval(1);
 
         // Set the clear color
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         // Make the window visible
         glfwShowWindow(this.window);
-
-        Input input = new Input(this.window);
-
-        // Run the rendering loop until the user has attempted to close the window
-        while(!this.isCloseRequested()) {
-            this.render();
-            input.update();
-        }
-
-        this.dispose();
     }
 
     public void render() {
@@ -75,23 +56,14 @@ public class Window {
         // Free the window callbacks and destroy the window
         glfwFreeCallbacks(this.window);
         glfwDestroyWindow(this.window);
-
-        // Terminate GLFW and free the error callback
-        glfwTerminate();
-        glfwSetErrorCallback(null).free();
     }
 
-    private boolean isCloseRequested() {
+    public boolean isCloseRequested() {
         return glfwWindowShouldClose(this.window);
     }
 
-    private void getDeviceProperties(){
-        System.out.println("OpenGL version: " + GL11.glGetString(GL11.GL_VERSION) + " bytes");
-        System.out.println("Max Geometry Uniform Blocks: " + GL31.GL_MAX_GEOMETRY_UNIFORM_BLOCKS+ " bytes");
-        System.out.println("Max Geometry Shader Invocations: " + GL40.GL_MAX_GEOMETRY_SHADER_INVOCATIONS + " bytes");
-        System.out.println("Max Uniform Buffer Bindings: " + GL31.GL_MAX_UNIFORM_BUFFER_BINDINGS + " bytes");
-        System.out.println("Max Uniform Block Size: " + GL31.GL_MAX_UNIFORM_BLOCK_SIZE + " bytes");
-        System.out.println("Max SSBO Block Size: " + GL43.GL_MAX_SHADER_STORAGE_BLOCK_SIZE + " bytes");
+    public long getWindow() {
+        return this.window;
     }
 }
 

@@ -2,11 +2,11 @@ package core.input;
 
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 
-public class Input {
+public class InputManager {
 
     private KeyboardHandler keyCallback;
 
-    public Input(long window) {
+    public InputManager(long window) {
         this.keyCallback = new KeyboardHandler();
         glfwSetKeyCallback(window, this.keyCallback);
     }

@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MoonEngine.iml" filepath="$PROJECT_DIR$/.idea/modules/MoonEngine.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MoonEngine_main.iml" filepath="$PROJECT_DIR$/.idea/modules/MoonEngine_main.iml" group="MoonEngine" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MoonEngine_test.iml" filepath="$PROJECT_DIR$/.idea/modules/MoonEngine_test.iml" group="MoonEngine" />
     </modules>
   </component>
 </project>
