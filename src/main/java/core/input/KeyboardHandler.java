@@ -24,7 +24,7 @@ public class KeyboardHandler extends GLFWKeyCallback {
         }
 
         if (action == GLFW_RELEASE){
-            heldKeys.remove(new Integer(key));
+            heldKeys.remove(new Integer(key)); // removes the first occurrence of the specified element from this list
             releasedKeys.add(key);
 
             System.out.println("released " + key);
@@ -34,8 +34,5 @@ public class KeyboardHandler extends GLFWKeyCallback {
     public void update() {
         pushedKeys.clear();
         releasedKeys.clear();
-
-        // Poll for window events. The key callback above will only be invoked during this call.
-        glfwPollEvents();
     }
 }

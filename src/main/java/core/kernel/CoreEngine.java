@@ -1,7 +1,6 @@
 package core.kernel;
 
-import core.input.InputManager;
-import core.utils.Constants;
+import core.input.Input;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL31;
@@ -13,21 +12,19 @@ import static org.lwjgl.glfw.GLFW.*;
 public class CoreEngine {
 
     private Window window;
-    private InputManager inputManager;
+    private Input input;
     private boolean isRunning;
-    private int framerate;
-    private float frameTime;
 
-    public CoreEngine(int width, int height, int framerate) {
+    private int frameRate = 60;
+    private float frameTime = 1.0f / this.frameRate;
+
+    public CoreEngine(int width, int height) {
         this.initGLFW();
 
         this.window = new Window();
         this.window.create(width, height);
 
-        this.framerate = framerate;
-        this.frameTime = 1.0f / this.framerate;
-
-        this.inputManager = new InputManager(this.window.getWindow());
+        this.input = new Input(this.window.getWindow());
 
         this.isRunning = false;
 
@@ -64,18 +61,18 @@ public class CoreEngine {
         int frames = 0;
         long frameCounter = 0;
 
-        long lastTime = System.nanoTime();
+        long lastTime = Time.getTime();
         double unprocessedTime = 0;
 
         // Rendering Loop
         while(this.isRunning) {
             boolean render = false;
 
-            long startTime = System.nanoTime();
+            long startTime = Time.getTime();
             long passedTime = startTime - lastTime;
             lastTime = startTime;
 
-            unprocessedTime += passedTime / (double) Constants.NANOSECOND;
+            unprocessedTime += passedTime / (double) Time.SECOND;
             frameCounter += passedTime;
 
             while(unprocessedTime > frameTime) {
@@ -89,7 +86,7 @@ public class CoreEngine {
 
                 this.update();
 
-                if(frameCounter >= Constants.NANOSECOND) {
+                if(frameCounter >= Time.SECOND) {
                     System.out.println("FPS : " + frames);
                     frames = 0;
                     frameCounter = 0;
@@ -113,7 +110,7 @@ public class CoreEngine {
     }
 
     private void update() {
-        this.inputManager.update();
+        this.input.update();
     }
 
     private void render() {
