@@ -1,10 +1,8 @@
 package core.kernel;
 
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
-
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -35,7 +33,7 @@ public class Window {
         // LWJGL detects the context that is current in the current thread,
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
-        GL.createCapabilities();
+        createCapabilities();
 
         // Vsync
         glfwSwapInterval(1);
