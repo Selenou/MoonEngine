@@ -19,16 +19,14 @@ public class MouseButtonHandler extends GLFWMouseButtonCallback {
             if (!pushedButtons.contains(button)){
                 pushedButtons.add(button);
                 heldButtons.add(button);
-
-                System.out.println("pressed " + button);
+                //System.out.println("pressed " + button);
             }
         }
 
         if (action == GLFW_RELEASE){
             releasedButtons.add(button);
             heldButtons.remove(new Integer(button)); // removes the first occurrence of the specified element from this list
-
-            System.out.println("released " + button);
+            //System.out.println("released " + button);
         }
     }
 

@@ -1,6 +1,7 @@
 package core.kernel;
 
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -15,9 +16,10 @@ public class Window {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
         this.window = glfwCreateWindow(width, height, "Moon Engine", NULL, NULL);
 
@@ -38,16 +40,11 @@ public class Window {
         // Vsync
         glfwSwapInterval(1);
 
-        // Set the clear color
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
         // Make the window visible
         glfwShowWindow(this.window);
     }
 
     public void render() {
-        // clear the framebuffer
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // swap the color buffers
         glfwSwapBuffers(this.window);
     }

@@ -4,22 +4,29 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Input {
 
-    private KeyboardHandler keyCallback;
-    private MouseButtonHandler mouseButtonCallback;
+    private KeyboardHandler keyboardHandler;
+    private MouseButtonHandler mouseButtonHandler;
+    private CursorPositionHandler cursorPositionHandler;
 
     public Input(long window) {
-        this.keyCallback = new KeyboardHandler();
-        this.mouseButtonCallback = new MouseButtonHandler();
+        this.keyboardHandler = new KeyboardHandler();
+        this.mouseButtonHandler = new MouseButtonHandler();
+        this.cursorPositionHandler = new CursorPositionHandler();
 
-        glfwSetKeyCallback(window, this.keyCallback);
-        glfwSetMouseButtonCallback(window, this.mouseButtonCallback);
+        glfwSetKeyCallback(window, this.keyboardHandler);
+        glfwSetMouseButtonCallback(window, this.mouseButtonHandler);
+        glfwSetCursorPosCallback(window, this.cursorPositionHandler);
     }
 
     public void update() {
-        this.keyCallback.update();
-        this.mouseButtonCallback.update();
+        this.keyboardHandler.update();
+        this.mouseButtonHandler.update();
 
         // Poll for window events. The key callback above will only be invoked during this call.
         glfwPollEvents();
+    }
+
+    public boolean isKeyHeld(int key) {
+        return keyboardHandler.isKeyHeld(key);
     }
 }

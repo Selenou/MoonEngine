@@ -8,22 +8,27 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class CoreEngine {
 
+    private Game game;
     private Window window;
     private Input input;
+    private RenderingEngine renderingEngine;
     private boolean isRunning;
 
     private int frameRate = 60;
     private float frameTime = 1.0f / this.frameRate;
 
-    public CoreEngine(int width, int height) {
+    public CoreEngine(int width, int height, Game game) {
         this.initGLFW();
 
         this.window = new Window();
         this.window.create(width, height);
 
-        System.out.println("OpenGL version: " + GL11.glGetString(GL11.GL_VERSION));
+        this.game = game;
+        this.game.init();
 
         this.input = new Input(this.window.getWindow());
+
+        this.renderingEngine = new RenderingEngine(this.window);
 
         this.isRunning = false;
     }
@@ -108,10 +113,13 @@ public class CoreEngine {
 
     private void update() {
         this.input.update();
+        this.game.input(this.input);
     }
 
     private void render() {
-        this.window.render();
+        this.renderingEngine.clearScreen();
+        this.game.render();
+        this.renderingEngine.render();
     }
 
     private void cleanUp() {
