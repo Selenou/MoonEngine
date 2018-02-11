@@ -114,6 +114,7 @@ public class CoreEngine {
     private void update() {
         this.input.update();
         this.game.input(this.input);
+        this.game.update();
     }
 
     private void render() {

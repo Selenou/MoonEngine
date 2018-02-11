@@ -1,15 +1,21 @@
 package core.model;
 
+import java.util.HashMap;
+
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL32.*;
 
 public class Shader {
 
     private int program;
+    private HashMap<String, Integer> uniforms;
 
     public Shader() {
         // create an object to which shader objects can be attached and returns the ID reference
         this.program = glCreateProgram();
+
+        // create a map to stock uniforms
+        this.uniforms = new HashMap<>();
 
         // returns 0 if an error occurs creating the program object
         if(this.program == 0) {
@@ -56,6 +62,18 @@ public class Shader {
         glAttachShader(this.program, shader);
     }
 
+    public void addUniform(String uniform) {
+        int uniformLocation = glGetUniformLocation(this.program, uniform);
+
+        if (uniformLocation == 0xFFFFFFFF) {
+            System.err.println(this.getClass().getName() + " Error: Could not find uniform: " + uniform);
+            new Exception().printStackTrace();
+            System.exit(1);
+        }
+
+        this.uniforms.put(uniform, uniformLocation);
+    }
+
     public void compileShader() {
         // links the program object
         glLinkProgram(this.program);
@@ -82,5 +100,11 @@ public class Shader {
         glUseProgram(this.program);
     }
 
-    //todo : delete/detach/cleanup ?
+    public void setUniformi(String uniformName, int value) {
+        glUniform1i(uniforms.get(uniformName), value);
+    }
+
+    public void setUniformf(String uniformName, float value) {
+        glUniform1f(uniforms.get(uniformName), value);
+    }
 }

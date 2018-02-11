@@ -6,6 +6,7 @@ import core.model.Mesh;
 import core.model.Shader;
 import core.model.Vertex;
 import core.utils.ResourceLoader;
+import org.joml.Math;
 import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
@@ -38,6 +39,7 @@ public class Game {
         this.shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
         this.shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
         this.shader.compileShader();
+        this.shader.addUniform("customColor");
     }
 
     public void input(Input input) {
@@ -47,6 +49,13 @@ public class Game {
         else {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
+    }
+
+    float tmp = 0.0f;
+
+    public void update() {
+        tmp += 0.01;
+        this.shader.setUniformf("customColor", (float)Math.abs(Math.sin(tmp)));
     }
 
     public void render() {
