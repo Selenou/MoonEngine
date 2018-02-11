@@ -2,7 +2,7 @@ package core.buffer;
 
 import core.model.Mesh;
 import core.model.Vertex;
-import core.utils.BufferUtil;
+import core.utils.BufferHelper;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
@@ -31,11 +31,11 @@ public class VBO {
 
         // copy our vertices array in a VBO for OpenGL to use
         glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
-        glBufferData(GL_ARRAY_BUFFER, BufferUtil.createFlippedBuffer(mesh.getVertices()), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, BufferHelper.createFlippedBuffer(mesh.getVertices()), GL_STATIC_DRAW);
 
         // GL_ELEMENT_ARRAY_BUFFER is used to indicate the buffer you're presenting contains the indices of each element in the "other" (GL_ARRAY_BUFFER) buffer
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.ibo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, BufferUtil.createFlippedBuffer(mesh.getIndices()), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, BufferHelper.createFlippedBuffer(mesh.getIndices()), GL_STATIC_DRAW);
 
         // then set our vertex attributes pointers
         glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * Float.BYTES, 0);
@@ -48,6 +48,7 @@ public class VBO {
         glBindVertexArray(0);
     }
 
+    /*
     public void delete() {
         glDisableVertexAttribArray(0);
         glBindVertexArray(this.vao);
@@ -56,4 +57,5 @@ public class VBO {
         glDeleteVertexArrays(this.vao);
         glBindVertexArray(0);
     }
+    */
 }

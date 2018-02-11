@@ -1,8 +1,8 @@
 package core.kernel;
 
+import core.config.Config;
 import core.input.Input;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -14,14 +14,14 @@ public class CoreEngine {
     private RenderingEngine renderingEngine;
     private boolean isRunning;
 
-    private int frameRate = 60;
+    private int frameRate = Config.FPS;
     private float frameTime = 1.0f / this.frameRate;
 
-    public CoreEngine(int width, int height, Game game) {
+    public CoreEngine(Game game) {
         this.initGLFW();
 
         this.window = new Window();
-        this.window.create(width, height);
+        this.window.create(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT, Config.WINDOW_TITLE);
 
         this.game = game;
         this.game.init();

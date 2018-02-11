@@ -1,5 +1,7 @@
 package core.kernel;
 
+import core.config.Config;
+
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.createCapabilities;
@@ -10,7 +12,7 @@ public class Window {
 
     private long window;
 
-    public void create(int width, int height) {
+    public void create(int width, int height, String title) {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -19,7 +21,7 @@ public class Window {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
-        this.window = glfwCreateWindow(width, height, "Moon Engine", NULL, NULL);
+        this.window = glfwCreateWindow(width, height, title, NULL, NULL);
 
         if (this.window == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
@@ -36,7 +38,9 @@ public class Window {
         createCapabilities();
 
         // Vsync
-        glfwSwapInterval(1);
+        if(Config.VSYNC_ENABLED) {
+            glfwSwapInterval(1);
+        }
 
         // Make the window visible
         glfwShowWindow(this.window);
