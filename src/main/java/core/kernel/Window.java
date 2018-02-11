@@ -16,10 +16,14 @@ public class Window {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+
+        // for MacOS
+        //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+        //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
         this.window = glfwCreateWindow(width, height, title, NULL, NULL);
 
@@ -41,6 +45,9 @@ public class Window {
         if(Config.VSYNC_ENABLED) {
             glfwSwapInterval(1);
         }
+
+        // callback for window resizing
+        glfwSetFramebufferSizeCallback(this.window, (window, widthCb, heightCb) -> glViewport(0, 0, widthCb, heightCb));
 
         // Make the window visible
         glfwShowWindow(this.window);
