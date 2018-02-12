@@ -1,7 +1,15 @@
 package core.utils;
 
+import org.lwjgl.BufferUtils;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.stb.STBImage.stbi_failure_reason;
+import static org.lwjgl.stb.STBImage.stbi_load;
 
 public class ResourceLoader {
 
@@ -30,5 +38,31 @@ public class ResourceLoader {
         }
 
         return shaderSource.toString();
+    }
+
+    public static void loadImage(String fileName) {
+        // prepare image buffers
+        IntBuffer w = BufferUtils.createIntBuffer(1);
+        IntBuffer h = BufferUtils.createIntBuffer(1);
+        IntBuffer c = BufferUtils.createIntBuffer(1);
+
+        String path = ResourceLoader.class.getResource("/textures/" + fileName).getPath();
+
+        ByteBuffer imageBuffer = stbi_load(path, w, h, c, 0);
+
+        if (imageBuffer == null) {
+            throw new RuntimeException("Failed to load a texture file!" + System.lineSeparator() + stbi_failure_reason());
+        }
+
+        int width = w.get(0);
+        int height = h.get(0);
+        int channels = c.get(0); // components per pixel (rgb, rgba, ga, ...)
+
+        System.out.println(width + " " + height + " " + channels);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageBuffer);
+        //glGenerateMipmap(GL_TEXTURE_2D);
+
+        //stbi_image_free(imageBuffer);
     }
 }

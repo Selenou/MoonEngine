@@ -19,6 +19,9 @@ public class Game {
     private Shader shader;
 
     public void init() {
+
+        ResourceLoader.loadImage("wall.jpg");
+
         Vertex[] vertices = new Vertex[]{
                 new Vertex(new Vector3f(0.5f, 0.5f, 0)), //top right
                 new Vertex(new Vector3f(0.5f, -0.5f, 0)), // bottom right

@@ -15,6 +15,7 @@ Java based game engine
 + Texture
 + Camera
 + Light
++ [Better memory management](https://github.com/LWJGL/lwjgl3-wiki/wiki/1.3.-Memory-FAQ)
 
 ## Site
 https://selenou.github.io/MoonEngine/
