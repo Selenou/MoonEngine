@@ -1,6 +1,10 @@
 package core.kernel;
 
 import core.config.Config;
+import core.utils.ResourceLoader;
+import org.lwjgl.glfw.GLFWImage;
+
+import java.nio.ByteBuffer;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -46,6 +50,8 @@ public class Window {
             glfwSwapInterval(1);
         }
 
+        this.setWindowIcon("logo.png");
+
         // callback for window resizing
         glfwSetFramebufferSizeCallback(this.window, (window, widthCb, heightCb) -> glViewport(0, 0, widthCb, heightCb));
 
@@ -62,6 +68,17 @@ public class Window {
         // Free the window callbacks and destroy the window
         glfwFreeCallbacks(this.window);
         glfwDestroyWindow(this.window);
+    }
+
+    private void setWindowIcon(String fileName) {
+        ByteBuffer imageBuffer = ResourceLoader.loadImage(fileName);
+        GLFWImage image = GLFWImage.malloc();
+        image.set(48, 48, imageBuffer);
+        GLFWImage.Buffer images = GLFWImage.malloc(1);
+        images.put(0, image);
+        glfwSetWindowIcon(this.window, images);
+        images.free();
+        image.free();
     }
 
     public boolean isCloseRequested() {

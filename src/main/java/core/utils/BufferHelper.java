@@ -26,6 +26,8 @@ public class BufferHelper {
             buffer.put(vertice.getPosition().x());
             buffer.put(vertice.getPosition().y());
             buffer.put(vertice.getPosition().z());
+            buffer.put(vertice.getTexCoord().x());
+            buffer.put(vertice.getTexCoord().y());
         }
 
         // flip the buffer !!! this needs to be done before it can be read by GL

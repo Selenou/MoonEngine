@@ -4,9 +4,10 @@ import core.buffer.VBO;
 import core.input.Input;
 import core.model.Mesh;
 import core.model.Shader;
+import core.model.Texture;
 import core.model.Vertex;
 import core.utils.ResourceLoader;
-import org.joml.Math;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
@@ -17,16 +18,14 @@ public class Game {
     private Mesh mesh;
     private VBO meshBuffer;
     private Shader shader;
+    private Texture texture;
 
     public void init() {
-
-        ResourceLoader.loadImage("wall.jpg");
-
         Vertex[] vertices = new Vertex[]{
-                new Vertex(new Vector3f(0.5f, 0.5f, 0)), //top right
-                new Vertex(new Vector3f(0.5f, -0.5f, 0)), // bottom right
-                new Vertex(new Vector3f(-0.5f, 0.5f, 0)), // top left
-                new Vertex(new Vector3f(-0.5f, -0.5f, 0)) // bottom left
+                new Vertex(new Vector3f(0.5f, 0.5f, 0), new Vector2f(1.0f,1.0f)), //top right
+                new Vertex(new Vector3f(0.5f, -0.5f, 0), new Vector2f(1.0f,0)), // bottom right
+                new Vertex(new Vector3f(-0.5f, 0.5f, 0), new Vector2f(0,1.0f)), // top left
+                new Vertex(new Vector3f(-0.5f, -0.5f, 0), new Vector2f(0,0)) // bottom left
         };
 
         int[] indices = {
@@ -38,11 +37,13 @@ public class Game {
         this.meshBuffer = new VBO();
         this.meshBuffer.allocate(this.mesh);
 
+        this.texture = ResourceLoader.loadTexture("test.jpg");
+
         this.shader = new Shader();
         this.shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
         this.shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
         this.shader.compileShader();
-        this.shader.addUniform("customColor");
+        //this.shader.addUniform("customColor");
     }
 
     public void input(Input input) {
@@ -58,11 +59,12 @@ public class Game {
 
     public void update() {
         tmp += 0.01;
-        this.shader.setUniformf("customColor", (float)Math.abs(Math.sin(tmp)));
+        //this.shader.setUniformf("customColor", (float)Math.abs(Math.sin(tmp)));
     }
 
     public void render() {
         this.shader.bind();
+        this.texture.bind();
         this.meshBuffer.draw();
     }
 }

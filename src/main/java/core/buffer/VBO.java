@@ -38,8 +38,11 @@ public class VBO {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, BufferHelper.createFlippedBuffer(mesh.getIndices()), GL_STATIC_DRAW);
 
         // then set our vertex attributes pointers
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * Float.BYTES, 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * Float.BYTES, 0); // position
+        glVertexAttribPointer(1, 2, GL_FLOAT, false, Vertex.SIZE * Float.BYTES, 3 * Float.BYTES ); // texture
+
         glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
     }
 
     public void draw() {
@@ -51,6 +54,7 @@ public class VBO {
     /*
     public void delete() {
         glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
         glBindVertexArray(this.vao);
         glDeleteBuffers(this.vbo);
         glDeleteBuffers(this.ibo);
