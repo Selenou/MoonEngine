@@ -1,6 +1,9 @@
 package core.utils;
 
+import core.model.Model;
 import core.model.Texture;
+import org.lwjgl.assimp.AIScene;
+import org.lwjgl.assimp.Assimp;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.BufferedReader;
@@ -8,6 +11,7 @@ import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
+import static org.lwjgl.assimp.Assimp.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.stb.STBImage.*;
 
@@ -55,7 +59,7 @@ public class ResourceLoader {
             ByteBuffer imageBuffer = stbi_load(path, w, h, c, 0);
 
             if (imageBuffer == null) {
-                throw new RuntimeException("Failed to load a texture file!" + System.lineSeparator() + stbi_failure_reason());
+                throw new RuntimeException("Failed to load a texture !" + System.lineSeparator() + stbi_failure_reason());
             }
 
             int width = w.get(0);
@@ -109,10 +113,23 @@ public class ResourceLoader {
             ByteBuffer imageBuffer = stbi_load(path, w, h, c, 0);
 
             if (imageBuffer == null) {
-                throw new RuntimeException("Failed to load a texture file!" + System.lineSeparator() + stbi_failure_reason());
+                throw new RuntimeException("Failed to load an image !" + System.lineSeparator() + stbi_failure_reason());
             }
 
             return imageBuffer;
         }
+    }
+
+    public static Model loadModel(String fileName) {
+
+        String path = ResourceLoader.class.getResource("/models/" + fileName).getPath();
+
+        AIScene scene = Assimp.aiImportFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate);
+
+        if (scene == null) {
+            throw new IllegalStateException("Failed to load a model !" + System.lineSeparator() + aiGetErrorString());
+        }
+
+        return new Model(scene);
     }
 }
