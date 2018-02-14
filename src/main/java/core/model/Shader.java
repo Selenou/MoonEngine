@@ -1,5 +1,10 @@
 package core.model;
 
+import core.utils.BufferHelper;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.BufferUtils;
+
 import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL20.*;
@@ -106,5 +111,13 @@ public class Shader {
 
     public void setUniformf(String uniformName, float value) {
         glUniform1f(uniforms.get(uniformName), value);
+    }
+
+    public void setUniform(String uniformName, Vector3f value) {
+        glUniform3f(uniforms.get(uniformName), value.x(), value.y(), value.z());
+    }
+
+    public void setUniform(String uniformName, Matrix4f value) {
+        glUniformMatrix4fv(uniforms.get(uniformName), false, BufferHelper.createFlippedBuffer(value));
     }
 }

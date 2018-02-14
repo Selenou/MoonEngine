@@ -1,6 +1,7 @@
 package core.utils;
 
 import core.model.Vertex;
+import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -35,5 +36,10 @@ public class BufferHelper {
         buffer.flip();
 
         return buffer;
+    }
+
+    public static FloatBuffer createFlippedBuffer(Matrix4f matrix) {
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(4 * 4);
+        return matrix.get(buffer);
     }
 }

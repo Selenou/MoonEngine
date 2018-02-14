@@ -19,6 +19,9 @@ public class RenderingEngine {
         // Set the clear color
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+        // Z buffer
+        glEnable(GL_DEPTH_TEST);
+
         if(Config.CULL_FACE_ENABLED) {
             this.enableFaceCulling();
         }
@@ -37,7 +40,7 @@ public class RenderingEngine {
         // Face culling : determines whether a polygon of a graphical object is visible
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
-        glFrontFace(GL_CW);
+        glFrontFace(GL_CCW);
     }
 
     private String getGLVersion() {

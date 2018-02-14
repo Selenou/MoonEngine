@@ -1,12 +1,11 @@
-package core;
+package demo;
 
 import core.kernel.CoreEngine;
-import core.kernel.Game;
 
 public class Main {
 
     public static void main(String[] args) {
-        CoreEngine engine = new CoreEngine(new Game ());
+        CoreEngine engine = new CoreEngine(new DemoGame());
         engine.start();
     }
 }

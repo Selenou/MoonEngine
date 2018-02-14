@@ -130,6 +130,6 @@ public class ResourceLoader {
             throw new IllegalStateException("Failed to load a model !" + System.lineSeparator() + aiGetErrorString());
         }
 
-        return new Model(scene);
+        return AssimpModelLoader.loadModel(scene);
     }
 }
