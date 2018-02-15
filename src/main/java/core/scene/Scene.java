@@ -1,5 +1,6 @@
 package core.scene;
 
+import core.input.Input;
 import org.joml.Vector3f;
 
 public class Scene extends Node {
@@ -16,6 +17,19 @@ public class Scene extends Node {
 
     public void addNode(Node childNode) {
         this.root.addChild(childNode);
+    }
+
+    public void update() {
+        this.root.update();
+    }
+
+    public void input(Input input, float delta) {
+        this.mainCamera.input(input, delta);
+        this.root.input(input, delta);
+    }
+
+    public void render() {
+        this.root.render();
     }
 
     public Camera getMainCamera() {

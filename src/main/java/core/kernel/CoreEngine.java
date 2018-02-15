@@ -17,14 +17,11 @@ public class CoreEngine {
     private int frameRate = Config.FPS;
     private float frameTime = 1.0f / this.frameRate;
 
-    public CoreEngine(AbstractGame game) {
+    public CoreEngine() {
         this.initGLFW();
 
         this.window = new Window();
         this.window.create(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT, Config.WINDOW_TITLE);
-
-        this.game = game;
-        this.game.init();
 
         this.input = new Input(this.window.getWindow());
 
@@ -129,11 +126,16 @@ public class CoreEngine {
         this.renderingEngine.render();
     }
 
+    //todo game dispose ?
     private void cleanUp() {
         this.window.dispose();
 
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+    }
+
+    public void setGame(AbstractGame game) {
+        this.game = game;
     }
 }
