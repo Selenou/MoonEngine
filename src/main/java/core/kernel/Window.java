@@ -52,16 +52,16 @@ public class Window {
 
         this.setWindowIcon("logo.png");
 
-        // callback for window resizing
-        glfwSetFramebufferSizeCallback(this.window, (window, widthCb, heightCb) -> glViewport(0, 0, widthCb, heightCb));
-
         // Make the window visible
         glfwShowWindow(this.window);
     }
 
     public void render() {
-        // swap the color buffers
-        glfwSwapBuffers(this.window);
+        glfwSwapBuffers(this.window); // swap the color buffers
+    }
+
+    public void updateViewPort(int width, int height) {
+        glViewport(0, 0, width, height);
     }
 
     public void dispose() {

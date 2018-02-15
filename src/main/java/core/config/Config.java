@@ -1,6 +1,7 @@
 package core.config;
 
 public final class Config {
+    public static final boolean DEBUG               = true;
     public static final int WINDOW_WIDTH            = 800;
     public static final int WINDOW_HEIGHT           = 600;
     public static final String WINDOW_TITLE         = "Moon Engine";
