@@ -15,8 +15,12 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Window {
 
     private long window;
+    private int width, height;
 
     public void create(int width, int height, String title) {
+        this.width = width;
+        this.height = height;
+
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -52,6 +56,9 @@ public class Window {
 
         this.setWindowIcon("logo.png");
 
+        // callback for Framebuffer resizing
+        glfwSetFramebufferSizeCallback(this.window, (window, widthCb, heightCb) -> this.updateWindowDimension(widthCb, heightCb));
+
         // Make the window visible
         glfwShowWindow(this.window);
     }
@@ -60,8 +67,12 @@ public class Window {
         glfwSwapBuffers(this.window); // swap the color buffers
     }
 
-    public void updateViewPort(int width, int height) {
-        glViewport(0, 0, width, height);
+    public void updateWindowDimension(int width, int height) {
+        this.width = width;
+        this.height = height;
+        glViewport(0, 0, this.width, this.height);
+        CoreEngine.getInstance().getGame().getScene().getMainCamera().updateProjectionMatrix(this.width, this.height);
+
     }
 
     public void dispose() {
@@ -87,6 +98,14 @@ public class Window {
 
     public long getWindow() {
         return this.window;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
     }
 }
 

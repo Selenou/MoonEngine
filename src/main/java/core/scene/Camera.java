@@ -2,6 +2,8 @@ package core.scene;
 
 import core.config.Config;
 import core.input.Input;
+import core.kernel.CoreEngine;
+import core.kernel.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -22,8 +24,8 @@ public class Camera {
 
     private CameraMode mode;
 
-    private Matrix4f viewProjectionMatrix = new Matrix4f();
-    private Matrix4f projectionMatrix = new Matrix4f();
+    private Matrix4f viewProjectionMatrix;
+    private Matrix4f projectionMatrix;
 
     public Camera(Vector3f position, Vector3f forward, Vector3f up, CameraMode mode) {
         this.position = position;
@@ -34,10 +36,6 @@ public class Camera {
 
         this.viewProjectionMatrix = new Matrix4f();
         this.projectionMatrix = this.createProjectionMatrix();
-    }
-
-    public Camera(Vector3f position, Vector3f forward, Vector3f up) {
-        this(position, forward, up, CameraMode.PERSPECTIVE);
     }
 
     public void input(Input input, float delta) {
@@ -81,7 +79,8 @@ public class Camera {
     }
 
     private Matrix4f createProjectionMatrix() {
-        float aspectRatio = Config.WINDOW_WIDTH * 1.0f / Config.WINDOW_HEIGHT;
+        Window window = CoreEngine.getInstance().getWindow();
+        float aspectRatio = window.getWidth() * 1.0f / window.getHeight();
 
         if(this.mode == CameraMode.PERSPECTIVE)
             return new Matrix4f().setPerspective((float) Math.toRadians(Config.FOV), aspectRatio, Config.Z_NEAR, Config.Z_FAR);
@@ -100,5 +99,12 @@ public class Camera {
 
     public Matrix4f getViewProjectionMatrix() {
         return this.viewProjectionMatrix;
+    }
+
+    public void switchMode(CameraMode mode) {
+        if(this.mode != mode) {
+            this.mode = mode;
+            this.projectionMatrix = this.createProjectionMatrix();
+        }
     }
 }

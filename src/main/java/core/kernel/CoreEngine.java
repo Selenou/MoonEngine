@@ -8,6 +8,8 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class CoreEngine {
 
+    private static CoreEngine instance = null;
+
     private AbstractGame game;
     private Window window;
     private Input input;
@@ -17,7 +19,14 @@ public class CoreEngine {
     private int frameRate = Config.FPS;
     private float frameTime = 1.0f / this.frameRate;
 
-    public CoreEngine() {
+    public static CoreEngine getInstance(){
+        if(instance == null){
+            instance = new CoreEngine();
+        }
+        return instance;
+    }
+
+    private CoreEngine() {
         this.initGLFW();
 
         this.window = new Window();
@@ -28,12 +37,6 @@ public class CoreEngine {
         this.renderingEngine = new RenderingEngine(this.window);
 
         this.isRunning = false;
-
-        // callback for Framebuffer resizing
-        glfwSetFramebufferSizeCallback(this.window.getWindow(), (window, widthCb, heightCb) -> {
-            this.window.updateViewPort(widthCb, heightCb);
-            this.game.getScene().getMainCamera().updateProjectionMatrix(widthCb, heightCb);
-        });
     }
 
     private void initGLFW() {
@@ -137,5 +140,13 @@ public class CoreEngine {
 
     public void setGame(AbstractGame game) {
         this.game = game;
+    }
+
+    public AbstractGame getGame() {
+        return this.game;
+    }
+
+    public Window getWindow() {
+        return this.window;
     }
 }

@@ -1,5 +1,6 @@
 package core.shader;
 
+import core.scene.GameObject;
 import core.utils.BufferHelper;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -64,6 +65,10 @@ public abstract class Shader {
 
         // attaches the shader object to the program object. This indicates that shader will be included in link operations that will be performed on program.
         glAttachShader(this.program, shader);
+    }
+
+    public void updateUniforms(GameObject object) {
+
     }
 
     public void addUniform(String uniform) {

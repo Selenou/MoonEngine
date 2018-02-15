@@ -1,8 +1,10 @@
 package core.model;
 
+import core.scene.Component;
+
 import java.util.ArrayList;
 
-public class Model {
+public class Model extends Component {
 
     private ArrayList<Mesh> meshes;
 

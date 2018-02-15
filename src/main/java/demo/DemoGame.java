@@ -5,36 +5,56 @@ import core.config.Config;
 import core.input.Input;
 import core.kernel.AbstractGame;
 import core.model.Model;
+import core.model.Renderer;
+import core.scene.Camera;
+import core.scene.GameObject;
 import core.shader.DefaultShader;
-import core.shader.Shader;
 import core.utils.ResourceLoader;
+import org.joml.Vector3f;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class DemoGame extends AbstractGame {
-
-    private VBO vbo;
-    private Shader shader;
 
     public DemoGame() {
         super();
 
         Model model = ResourceLoader.loadModel("cube.obj");
-        this.vbo = new VBO();
-        this.vbo.allocate(model.getMesh().get(0));
+        VBO vbo = new VBO();
+        vbo.allocate(model.getMesh().get(0)); //todo gerer multi mesh
 
-        this.shader = DefaultShader.getInstance();
+        Renderer renderer = new Renderer(vbo, DefaultShader.getInstance());
+        GameObject cube = new GameObject();
+        //cube.getTransform().setScale(new Vector3f(0.1f)); //todo a fix
+        cube.addComponent("model", model);
+        cube.addComponent("renderer", renderer);
+        this.scene.addNode(cube);
+
+
+        Model model2 = ResourceLoader.loadModel("sphere.obj");
+        VBO vbo2 = new VBO();
+        vbo2.allocate(model2.getMesh().get(0));
+
+        Renderer renderer2 = new Renderer(vbo2, DefaultShader.getInstance());
+        GameObject cube2 = new GameObject();
+        //cube2.getTransform().setScale(new Vector3f(0.1f));
+        cube2.addComponent("model", model2);
+        cube2.addComponent("renderer", renderer2);
+        this.scene.addNode(cube2);
     }
 
     @Override
     public void input(Input input, float delta) {
-
         if(Config.DEBUG) {
-            if(input.isKeyHeld(GLFW_KEY_SPACE))
-                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            else
+            if(input.isKeyPressed(GLFW_KEY_F1))
                 glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            else if(input.isKeyPressed(GLFW_KEY_F2))
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            else if(input.isKeyPressed(GLFW_KEY_F3))
+                this.scene.getMainCamera().switchMode(Camera.CameraMode.PERSPECTIVE);
+            else if(input.isKeyPressed(GLFW_KEY_F4))
+                this.scene.getMainCamera().switchMode(Camera.CameraMode.ORTHOGRAPHIC);
         }
 
         super.input(input, delta);
@@ -47,10 +67,6 @@ public class DemoGame extends AbstractGame {
 
     @Override
     public void render() {
-        this.shader.bind();
-        this.shader.setUniform("MVP", this.scene.getMainCamera().getViewProjectionMatrix().mul(this.scene.getTransform().getModelMatrix()));
-        this.vbo.draw();
-
         super.render();
     }
 }

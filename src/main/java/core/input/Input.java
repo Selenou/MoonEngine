@@ -26,6 +26,10 @@ public class Input {
         glfwPollEvents();
     }
 
+    public boolean isKeyPressed(int key) {
+        return keyboardHandler.isKeyPressed(key);
+    }
+
     public boolean isKeyHeld(int key) {
         return keyboardHandler.isKeyHeld(key);
     }

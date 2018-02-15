@@ -7,13 +7,12 @@ Java based game engine
 ## How to use
 + use graddle to build the project
 + for mac user : opengl 4.1 + forward compat
-+ press space for wireframe mode
++ press F1 for normal mode, F2 for wireframe mode
 + enjoy :)
 
 ## TODO
 + Lighting basic
 + Lighting advanced
-+ Scene mecanism
 + Material and stuff
 + [Better memory management](https://github.com/LWJGL/lwjgl3-wiki/wiki/1.3.-Memory-FAQ)
 

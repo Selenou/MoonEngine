@@ -25,7 +25,6 @@ public class ResourceLoader {
      * @return the shader's source code as string
      */
     public static String loadShader(String fileName) {
-
         StringBuilder shaderSource = new StringBuilder();
         BufferedReader shaderReader;
         try {
@@ -47,7 +46,6 @@ public class ResourceLoader {
     }
 
     public static Texture loadTexture(String fileName) {
-
         try (MemoryStack stack = MemoryStack.stackPush()) { // super efficient : stack is automatically popped, ip memory automatically reclaimed
             IntBuffer w = stack.mallocInt(1);
             IntBuffer h = stack.mallocInt(1);

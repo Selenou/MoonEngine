@@ -1,5 +1,7 @@
 package core.shader;
 
+import core.kernel.CoreEngine;
+import core.scene.GameObject;
 import core.utils.ResourceLoader;
 
 public class DefaultShader extends Shader {
@@ -17,14 +19,14 @@ public class DefaultShader extends Shader {
         this.addUniform("MVP");
     }
 
-    /*
     public void updateUniforms(GameObject object) {
-
-    }*/
+        //todo erreur qql part si 2 objects dans scene et si on modifie la transform du premier
+        this.setUniform("MVP", CoreEngine.getInstance().getGame().getScene().getMainCamera().getViewProjectionMatrix().mul(object.getTransform().getModelMatrix()));
+    }
 
     public static DefaultShader getInstance() {
         if(instance == null) {
-            return new DefaultShader();
+            instance = new DefaultShader();
         }
         return instance;
     }
