@@ -7,7 +7,9 @@ import org.lwjgl.assimp.Assimp;
 import org.lwjgl.system.MemoryStack;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
@@ -89,7 +91,6 @@ public class ResourceLoader {
 
             // once glTexImage2D is called, the currently bound texture object now has the texture image attached to it
 
-
             // if you want mipmap
             //glTexParameteri(GL_TEXTURE_2D, GL_NEAREST_MIPMAP_LINEAR, GL_NEAREST);
             // stored smaller versions of a texture where the appropriate sized version is chosen based on the distance to the viewer
@@ -102,13 +103,13 @@ public class ResourceLoader {
         }
     }
 
-    public static ByteBuffer loadImage(String fileName) {
+    public static ByteBuffer loadImage(String fileName){
         try (MemoryStack stack = MemoryStack.stackPush()) { // super efficient : stack is automatically popped, ip memory automatically reclaimed
             IntBuffer w = stack.mallocInt(1);
             IntBuffer h = stack.mallocInt(1);
             IntBuffer c = stack.mallocInt(1);
 
-            String path = ResourceLoader.class.getResource("/images/" + fileName).getPath();
+            String path = ResourceLoader.getAbsolutePath("/images/" + fileName);
 
             ByteBuffer imageBuffer = stbi_load(path, w, h, c, 0);
 
@@ -120,9 +121,8 @@ public class ResourceLoader {
         }
     }
 
-    public static Model loadModel(String fileName) {
-
-        String path = ResourceLoader.class.getResource("/models/" + fileName).getPath();
+    public static Model loadModel(String fileName){
+        String path = ResourceLoader.getAbsolutePath("/models/" + fileName);
 
         AIScene scene = Assimp.aiImportFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate);
 
@@ -131,5 +131,20 @@ public class ResourceLoader {
         }
 
         return AssimpModelLoader.loadModel(scene);
+    }
+
+    private static String getAbsolutePath(String fileName) {
+        File file = null;
+
+        try {
+            file = new File(ResourceLoader.class.getResource(fileName).toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        if (file == null)
+            throw new RuntimeException("Failed to create the GLFW window");
+
+        return file.getAbsolutePath();
     }
 }
