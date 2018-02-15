@@ -14,10 +14,6 @@ public class Scene extends Node {
         this.mainCamera = new Camera(new Vector3f(0,0,5), new Vector3f(0,0,-1), new Vector3f(0,1,0), Camera.CameraMode.PERSPECTIVE);
     }
 
-    public void addNode(Node childNode) {
-        this.rootNode.addChild(childNode);
-    }
-
     public void update() {
         this.rootNode.update();
     }
@@ -33,5 +29,9 @@ public class Scene extends Node {
 
     public Camera getMainCamera() {
         return this.mainCamera;
+    }
+
+    public Node getRootNode() {
+        return this.rootNode;
     }
 }
