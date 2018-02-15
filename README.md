@@ -11,11 +11,10 @@ Java based game engine
 + enjoy :)
 
 ## TODO
-+ Texture
-+ Light
-+ Framebuffer
++ Lighting basic
++ Lighting advanced
 + Scene mecanism
-+ Material
++ Material and stuff
 + [Better memory management](https://github.com/LWJGL/lwjgl3-wiki/wiki/1.3.-Memory-FAQ)
 
 ## Site

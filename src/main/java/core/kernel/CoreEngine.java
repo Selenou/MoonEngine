@@ -35,7 +35,7 @@ public class CoreEngine {
         // callback for Framebuffer resizing
         glfwSetFramebufferSizeCallback(this.window.getWindow(), (window, widthCb, heightCb) -> {
             this.window.updateViewPort(widthCb, heightCb);
-            this.game.getMainCamera().updateProjectionMatrix(widthCb, heightCb);
+            this.game.getScene().getMainCamera().updateProjectionMatrix(widthCb, heightCb);
         });
     }
 

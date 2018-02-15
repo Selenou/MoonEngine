@@ -1,4 +1,4 @@
-package core.kernel;
+package core.scene;
 
 import core.config.Config;
 import core.input.Input;
@@ -56,6 +56,8 @@ public class Camera {
             this.move(this.up, amount);
         if(input.isKeyHeld(GLFW_KEY_E))
             this.move(this.up, -amount);
+
+        //todo rotate
     }
 
     public void update() {

@@ -2,13 +2,18 @@ package core.kernel;
 
 import core.config.Config;
 import core.input.Input;
+import core.scene.Scene;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.opengl.GL11.*;
 
 public abstract class AbstractGame {
 
-    protected Camera mainCamera;
+    protected Scene scene;
+
+    public AbstractGame() {
+        this.scene = new Scene();
+    }
 
     public void init() {
 
@@ -21,19 +26,17 @@ public abstract class AbstractGame {
             else
                 glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
-
-        this.mainCamera.input(input, delta);
     }
 
     public void update() {
-        this.mainCamera.update();
+        this.scene.getMainCamera().update();
     }
 
     public void render() {
 
     }
 
-    public Camera getMainCamera() {
-        return this.mainCamera;
+    public Scene getScene() {
+        return this.scene;
     }
 }
