@@ -1,4 +1,4 @@
-package core.model;
+package core.shader;
 
 import core.utils.BufferHelper;
 import org.joml.Matrix4f;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL32.*;
 
-public class Shader {
+public abstract class Shader {
 
     private int program;
     private HashMap<String, Integer> uniforms;

@@ -2,11 +2,12 @@ package demo;
 
 import core.buffer.VBO;
 import core.input.Input;
-import core.kernel.Camera;
 import core.kernel.AbstractGame;
+import core.kernel.Camera;
 import core.kernel.Transform;
 import core.model.Model;
-import core.model.Shader;
+import core.shader.DefaultShader;
+import core.shader.Shader;
 import core.utils.ResourceLoader;
 import org.joml.Vector3f;
 
@@ -18,21 +19,16 @@ public class DemoGame extends AbstractGame {
 
     @Override
     public void init() {
+        this.mainCamera = new Camera(new Vector3f(0,0,5), new Vector3f(0,0,-1), new Vector3f(0,1,0));
 
         Model model = ResourceLoader.loadModel("cube.obj");
         this.vbo = new VBO();
         this.vbo.allocate(model.getMesh().get(0));
 
+        //todo inside node
         this.transform = new Transform();
-        this.transform.setTranslation(new Vector3f(0.0f, 0.0f, 0.0f));
 
-        this.mainCamera = new Camera(new Vector3f(0,0,5), new Vector3f(0,0,-1), new Vector3f(0,1,0));
-
-        this.shader = new Shader();
-        this.shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
-        this.shader.addFragmentShader(ResourceLoader.loadShader("basicColorFragment.fs"));
-        this.shader.compileShader();
-        this.shader.addUniform("MVP");
+        this.shader = DefaultShader.getInstance();
     }
 
     @Override
