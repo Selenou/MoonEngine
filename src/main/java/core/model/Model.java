@@ -2,17 +2,21 @@ package core.model;
 
 import core.scene.Component;
 
-import java.util.ArrayList;
-
 public class Model extends Component {
 
-    private ArrayList<Mesh> meshes;
+    private Mesh mesh;
+    private Material material;
 
-    public Model(ArrayList<Mesh> meshes) {
-        this.meshes = meshes;
+    public Model(Mesh mesh, Material material) {
+        this.mesh = mesh;
+        this.material = material;
     }
 
-    public ArrayList<Mesh> getMesh() {
-        return this.meshes;
+    public Mesh getMesh() {
+        return this.mesh;
+    }
+
+    public Material getMaterial() {
+        return this.material;
     }
 }

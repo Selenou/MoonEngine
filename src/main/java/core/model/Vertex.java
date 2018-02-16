@@ -15,8 +15,13 @@ public class Vertex {
         this.texCoord = texCoord;
     }
 
+    public Vertex() {
+        this.position = new Vector3f();
+        this.texCoord = new Vector2f();
+    }
+
     public Vertex(Vector3f position) {
-        this(position, new Vector2f(0,0));
+        this(position, new Vector2f());
     }
 
     public Vector3f getPosition() {
@@ -25,5 +30,13 @@ public class Vertex {
 
     public Vector2f getTexCoord() {
         return texCoord;
+    }
+
+    public void setPosition(Vector3f position) {
+        this.position = position;
+    }
+
+    public void setTexCoord(Vector2f texCoord) {
+        this.texCoord = texCoord;
     }
 }

@@ -1,7 +1,6 @@
 package core.utils;
 
 import core.model.Model;
-import core.model.Texture;
 import org.lwjgl.assimp.AIScene;
 import org.lwjgl.assimp.Assimp;
 import org.lwjgl.system.MemoryStack;
@@ -12,13 +11,14 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 
 import static org.lwjgl.assimp.Assimp.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.stb.STBImage.*;
 
 public class ResourceLoader {
-
     /**
      * Get a shader's source code from its file
      * @param fileName name of the file
@@ -45,13 +45,21 @@ public class ResourceLoader {
         return shaderSource.toString();
     }
 
-    public static Texture loadTexture(String fileName) {
+    public static int loadTexture(String textureDirectory) {
         try (MemoryStack stack = MemoryStack.stackPush()) { // super efficient : stack is automatically popped, ip memory automatically reclaimed
+
+            textureDirectory = textureDirectory.replace("\\", "/");
+            String path = ResourceLoader.class.getResource(textureDirectory).getPath();
+
+            TextureCache cache = TextureCache.getInstance();
+
+            if(cache.contains(path)){
+                return cache.getTextureId(path);
+            }
+
             IntBuffer w = stack.mallocInt(1);
             IntBuffer h = stack.mallocInt(1);
             IntBuffer c = stack.mallocInt(1);
-
-            String path = ResourceLoader.class.getResource("/textures/" + fileName).getPath();
 
             // flip the y-axis during image loading
             stbi_set_flip_vertically_on_load(true);
@@ -66,7 +74,7 @@ public class ResourceLoader {
             int height = h.get(0);
             int channels = c.get(0); // components per pixel (rgb, rgba, ga, ...)
 
-            System.out.println("Loading texture " + fileName + " | width : " + width + ", height : " + height + ", channels : " + channels);
+            System.out.println("Loading texture " + textureDirectory + " | width : " + width + ", height : " + height + ", channels : " + channels);
 
             int texId = glGenTextures();
 
@@ -90,14 +98,16 @@ public class ResourceLoader {
             // once glTexImage2D is called, the currently bound texture object now has the texture image attached to it
 
             // if you want mipmap
-            //glTexParameteri(GL_TEXTURE_2D, GL_NEAREST_MIPMAP_LINEAR, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_NEAREST_MIPMAP_LINEAR, GL_NEAREST);
             // stored smaller versions of a texture where the appropriate sized version is chosen based on the distance to the viewer
-            //glGenerateMipmap(GL_TEXTURE_2D);
+            glGenerateMipmap(GL_TEXTURE_2D);
 
             // it is good practice to free the image memory
             stbi_image_free(imageBuffer);
 
-            return new Texture(texId);
+            cache.getTextureMap().put(path, texId);
+
+            return texId;
         }
     }
 
@@ -119,8 +129,8 @@ public class ResourceLoader {
         }
     }
 
-    public static Model loadModel(String fileName){
-        String path = ResourceLoader.getAbsolutePath("/models/" + fileName);
+    public static ArrayList<Model> loadModel(String fileDir, String fileName){
+        String path = ResourceLoader.getAbsolutePath("/models/" + fileDir + fileName);
 
         AIScene scene = Assimp.aiImportFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate);
 
@@ -128,7 +138,7 @@ public class ResourceLoader {
             throw new IllegalStateException("Failed to load a model !" + System.lineSeparator() + aiGetErrorString());
         }
 
-        return AssimpModelLoader.loadModel(scene);
+        return AssimpModelLoader.loadModel(scene, fileDir);
     }
 
     private static String getAbsolutePath(String fileName) {

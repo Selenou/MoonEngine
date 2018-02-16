@@ -10,7 +10,11 @@ import core.scene.Camera;
 import core.scene.GameObject;
 import core.shader.DefaultShader;
 import core.utils.ResourceLoader;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
+
+import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -20,23 +24,24 @@ public class DemoGame extends AbstractGame {
     public DemoGame() {
         super();
 
-        Model model = ResourceLoader.loadModel("cube.obj");
-        VBO vbo = new VBO();
-        vbo.allocate(model.getMesh().get(0));
-        Renderer renderer = new Renderer(vbo, DefaultShader.getInstance());
-        GameObject cube = new GameObject();
-        cube.addComponent("model", model);
-        cube.addComponent("renderer", renderer);
-        this.scene.getRootNode().addChild(cube);
+        ArrayList<Model> modelList = ResourceLoader.loadModel("sponza_obj/", "sponza.obj");
 
-        Model model2 = ResourceLoader.loadModel("cube.obj");
-        VBO vbo2 = new VBO();
-        vbo2.allocate(model2.getMesh().get(0));
-        Renderer renderer2 = new Renderer(vbo2, DefaultShader.getInstance());
-        GameObject cube2 = new GameObject();
-        cube2.addComponent("model", model2);
-        cube2.addComponent("renderer", renderer2);
-        cube.addChild(cube2);
+        GameObject cube = new GameObject();
+
+        for(Model model : modelList){
+            GameObject cubeChild = new GameObject();
+            VBO vbo = new VBO();
+            vbo.allocate(model.getMesh());
+            Renderer renderer = new Renderer(vbo, DefaultShader.getInstance());
+            cubeChild.addComponent("model", model);
+            cubeChild.addComponent("renderer", renderer);
+            cubeChild.addComponent("material", model.getMaterial());
+            cubeChild.getTransform().setScale(new Vector3f(0.05f));
+            cubeChild.getTransform().setRotation(new Quaternionf(new AxisAngle4f((float)Math.toRadians(90), 0,1,0)));
+            cube.addChild(cubeChild);
+        }
+
+        this.scene.getRootNode().addChild(cube);
     }
 
     @Override
