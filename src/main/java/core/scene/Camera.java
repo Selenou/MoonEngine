@@ -98,7 +98,7 @@ public class Camera {
     }
 
     public Matrix4f getViewProjectionMatrix() {
-        return this.viewProjectionMatrix;
+        return new Matrix4f(viewProjectionMatrix);
     }
 
     public void switchMode(CameraMode mode) {

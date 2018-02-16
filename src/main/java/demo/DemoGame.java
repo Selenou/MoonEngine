@@ -20,36 +20,25 @@ public class DemoGame extends AbstractGame {
     public DemoGame() {
         super();
 
-        Model model = ResourceLoader.loadModel("sphere.obj");
+        Model model = ResourceLoader.loadModel("cube.obj");
         VBO vbo = new VBO();
-        vbo.allocate(model.getMesh().get(0)); //todo gerer multi mesh
+        vbo.allocate(model.getMesh().get(0));
         Renderer renderer = new Renderer(vbo, DefaultShader.getInstance());
         GameObject cube = new GameObject();
-        cube.getTransform().setScale(new Vector3f(1)); //todo a fix
+        cube.getTransform().setScale(new Vector3f(2)); //todo a fix
         cube.addComponent("model", model);
         cube.addComponent("renderer", renderer);
         this.scene.getRootNode().addChild(cube);
 
-
-        Model model2 = ResourceLoader.loadModel("sphere.obj");
+        Model model2 = ResourceLoader.loadModel("cube.obj");
         VBO vbo2 = new VBO();
         vbo2.allocate(model2.getMesh().get(0));
         Renderer renderer2 = new Renderer(vbo2, DefaultShader.getInstance());
         GameObject cube2 = new GameObject();
-        cube2.getTransform().setScale(new Vector3f(2f));
+        cube2.getTransform().setScale(new Vector3f(1));
         cube2.addComponent("model", model2);
         cube2.addComponent("renderer", renderer2);
-        this.scene.getRootNode().addChild(cube2);
-
-        Model model3 = ResourceLoader.loadModel("sphere.obj");
-        VBO vbo3 = new VBO();
-        vbo3.allocate(model3.getMesh().get(0));
-        Renderer renderer3 = new Renderer(vbo3, DefaultShader.getInstance());
-        GameObject cube3 = new GameObject();
-        cube3.getTransform().setScale(new Vector3f(3));
-        cube3.addComponent("model", model3);
-        cube3.addComponent("renderer", renderer3);
-        this.scene.getRootNode().addChild(cube3);
+        cube.addChild(cube2);
     }
 
     @Override
