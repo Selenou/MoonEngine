@@ -49,7 +49,7 @@ public class ResourceLoader {
         try (MemoryStack stack = MemoryStack.stackPush()) { // super efficient : stack is automatically popped, ip memory automatically reclaimed
 
             textureDirectory = textureDirectory.replace("\\", "/");
-            String path = ResourceLoader.class.getResource(textureDirectory).getPath();
+            String path = ResourceLoader.getAbsolutePath(textureDirectory);
 
             TextureCache cache = TextureCache.getInstance();
 

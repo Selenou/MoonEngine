@@ -24,7 +24,7 @@ public class DemoGame extends AbstractGame {
     public DemoGame() {
         super();
 
-        ArrayList<Model> modelList = ResourceLoader.loadModel("sponza_obj/", "sponza.obj");
+        ArrayList<Model> modelList = ResourceLoader.loadModel("mage/", "mage.FBX");
 
         GameObject cube = new GameObject();
 
@@ -36,8 +36,9 @@ public class DemoGame extends AbstractGame {
             cubeChild.addComponent("model", model);
             cubeChild.addComponent("renderer", renderer);
             cubeChild.addComponent("material", model.getMaterial());
+            cubeChild.getTransform().setRotation(new Quaternionf(new AxisAngle4f((float)Math.toRadians(-90),1,0,0)));
             cubeChild.getTransform().setScale(new Vector3f(0.05f));
-            cubeChild.getTransform().setRotation(new Quaternionf(new AxisAngle4f((float)Math.toRadians(90), 0,1,0)));
+            cubeChild.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
             cube.addChild(cubeChild);
         }
 
