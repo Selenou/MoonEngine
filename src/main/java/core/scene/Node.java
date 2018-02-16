@@ -33,6 +33,7 @@ public class Node {
 
     public void addChild(Node childNode) {
         childNode.setParent(this);
+        childNode.getTransform().setParentTransform(this.transform);
         this.children.add(childNode);
     }
 

@@ -25,7 +25,6 @@ public class DemoGame extends AbstractGame {
         vbo.allocate(model.getMesh().get(0));
         Renderer renderer = new Renderer(vbo, DefaultShader.getInstance());
         GameObject cube = new GameObject();
-        cube.getTransform().setScale(new Vector3f(2)); //todo a fix
         cube.addComponent("model", model);
         cube.addComponent("renderer", renderer);
         this.scene.getRootNode().addChild(cube);
@@ -35,7 +34,6 @@ public class DemoGame extends AbstractGame {
         vbo2.allocate(model2.getMesh().get(0));
         Renderer renderer2 = new Renderer(vbo2, DefaultShader.getInstance());
         GameObject cube2 = new GameObject();
-        cube2.getTransform().setScale(new Vector3f(1));
         cube2.addComponent("model", model2);
         cube2.addComponent("renderer", renderer2);
         cube.addChild(cube2);
