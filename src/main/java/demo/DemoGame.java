@@ -9,7 +9,7 @@ import core.model.Renderer;
 import core.scene.Camera;
 import core.scene.GameObject;
 import core.shader.DefaultShader;
-import core.utils.ResourceLoader;
+import core.utils.AssimpModelLoader;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -24,7 +24,7 @@ public class DemoGame extends AbstractGame {
     public DemoGame() {
         super();
 
-        ArrayList<Model> modelList = ResourceLoader.loadModel("mage/", "mage.FBX");
+        ArrayList<Model> modelList = AssimpModelLoader.loadModel("mage/", "mage.FBX");
 
         GameObject cube = new GameObject();
 

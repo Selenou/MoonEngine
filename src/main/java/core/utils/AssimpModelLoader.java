@@ -9,9 +9,20 @@ import org.lwjgl.assimp.*;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
+import static org.lwjgl.assimp.Assimp.aiGetErrorString;
+import static org.lwjgl.assimp.Assimp.aiProcess_JoinIdenticalVertices;
+import static org.lwjgl.assimp.Assimp.aiProcess_Triangulate;
+
 public class AssimpModelLoader {
 
-    public static ArrayList<Model> loadModel(AIScene scene, String fileDir) {
+    public static ArrayList<Model> loadModel(String fileDir, String fileName){
+        String path = Utils.getAbsolutePath("/models/" + fileDir + fileName);
+
+        AIScene scene = Assimp.aiImportFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate);
+
+        if (scene == null) {
+            throw new IllegalStateException("Failed to load a model !" + System.lineSeparator() + aiGetErrorString());
+        }
 
         ArrayList<Model> models = new ArrayList<>();
         ArrayList<Material> materials = new ArrayList<>();
@@ -88,7 +99,10 @@ public class AssimpModelLoader {
             }
         }
 
-        return new Mesh(AssimpModelLoader.toVertexArray(vertexList), AssimpModelLoader.toIntArray(indicesList));
+        Vertex[] vertex = vertexList.toArray(new Vertex[0]);
+        int[] indices = indicesList.stream().mapToInt(i->i).toArray();
+
+        return new Mesh(vertex, indices);
     }
 
     private static Material generateMaterial(AIMaterial aiMaterial, String fileDir) {
@@ -101,7 +115,7 @@ public class AssimpModelLoader {
 
         if (textPath.length() > 0) {
             diffuseTexture = new Texture();
-            diffuseTexture.setId(ResourceLoader.loadTexture("/models/" + fileDir + textPath));
+            diffuseTexture.setId(TextureManager.getInstance().loadTexture("/models/" + fileDir + textPath));
         }
 
         AIColor4D color = AIColor4D.create();
@@ -117,13 +131,5 @@ public class AssimpModelLoader {
         material.setDiffusemap(diffuseTexture);
 
         return material;
-    }
-
-    private static int[] toIntArray(ArrayList<Integer> arrayList) {
-        return arrayList.stream().mapToInt(i->i).toArray();
-    }
-
-    private static Vertex[] toVertexArray(ArrayList<Vertex> arrayList) {
-        return arrayList.toArray(new Vertex[0]);
     }
 }

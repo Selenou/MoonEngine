@@ -2,7 +2,6 @@ package core.shader;
 
 import core.kernel.CoreEngine;
 import core.scene.GameObject;
-import core.utils.ResourceLoader;
 
 public class DebugShader extends Shader {
 
@@ -11,8 +10,8 @@ public class DebugShader extends Shader {
     private DebugShader() {
         super();
 
-        this.addVertexShader(ResourceLoader.loadShader("debugVertex.vs"));
-        this.addFragmentShader(ResourceLoader.loadShader("debugFragment.fs"));
+        this.addVertexShader(this.loadShader("debugVertex.vs"));
+        this.addFragmentShader(this.loadShader("debugFragment.fs"));
 
         this.compileShader();
 

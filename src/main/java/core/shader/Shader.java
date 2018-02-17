@@ -2,13 +2,16 @@ package core.shader;
 
 import core.scene.GameObject;
 import core.utils.BufferHelper;
+import core.utils.Utils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL32.*;
+import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
 
 public abstract class Shader {
 
@@ -110,11 +113,11 @@ public abstract class Shader {
     }
 
     public void setUniformi(String uniformName, int value) {
-        glUniform1i(uniforms.get(uniformName), value);
+        glUniform1i(this.uniforms.get(uniformName), value);
     }
 
     public void setUniformf(String uniformName, float value) {
-        glUniform1f(uniforms.get(uniformName), value);
+        glUniform1f(this.uniforms.get(uniformName), value);
     }
 
     public void setUniform(String uniformName, Vector3f value) {
@@ -123,5 +126,31 @@ public abstract class Shader {
 
     public void setUniform(String uniformName, Matrix4f value) {
         glUniformMatrix4fv(uniforms.get(uniformName), false, BufferHelper.createFlippedBuffer(value));
+    }
+
+    /**
+     * Get a shader's source code from its file
+     * @param fileName name of the file
+     * @return the shader's source code as string
+     */
+    public static String loadShader(String fileName) {
+        StringBuilder shaderSource = new StringBuilder();
+        BufferedReader shaderReader;
+        try {
+            shaderReader = new BufferedReader(new InputStreamReader(Utils.class.getResourceAsStream("/shaders/" + fileName)));
+            String line;
+
+            while((line = shaderReader.readLine()) != null) {
+                shaderSource.append(line).append("\n");
+            }
+
+            shaderReader.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        return shaderSource.toString();
     }
 }

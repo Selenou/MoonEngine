@@ -3,7 +3,6 @@ package core.shader;
 import core.kernel.CoreEngine;
 import core.model.Material;
 import core.scene.GameObject;
-import core.utils.ResourceLoader;
 
 public class DefaultShader extends Shader {
 
@@ -12,8 +11,8 @@ public class DefaultShader extends Shader {
     private DefaultShader() {
         super();
 
-        this.addVertexShader(ResourceLoader.loadShader("defaultVertex.vs"));
-        this.addFragmentShader(ResourceLoader.loadShader("defaultFragment.fs"));
+        this.addVertexShader(this.loadShader("defaultVertex.vs"));
+        this.addFragmentShader(this.loadShader("defaultFragment.fs"));
 
         this.compileShader();
 

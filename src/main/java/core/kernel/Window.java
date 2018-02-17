@@ -2,6 +2,7 @@ package core.kernel;
 
 import core.config.Config;
 import core.utils.ResourceLoader;
+import core.utils.Utils;
 import org.lwjgl.glfw.GLFWImage;
 
 import java.nio.ByteBuffer;
@@ -82,7 +83,7 @@ public class Window {
     }
 
     private void setWindowIcon(String fileName) {
-        ByteBuffer imageBuffer = ResourceLoader.loadImage(fileName);
+        ByteBuffer imageBuffer = Utils.loadImage(fileName);
         GLFWImage image = GLFWImage.malloc();
         image.set(48, 48, imageBuffer);
         GLFWImage.Buffer images = GLFWImage.malloc(1);
