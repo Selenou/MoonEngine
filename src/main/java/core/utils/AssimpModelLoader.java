@@ -54,12 +54,11 @@ public class AssimpModelLoader {
     }
 
     private static Mesh generateMesh(AIMesh mesh) {
-
         ArrayList<Vertex> vertexList = new ArrayList<>();
         ArrayList<Integer> indicesList = new ArrayList<>();
 
         ArrayList<Vector3f> vertices = new ArrayList<>();
-        ArrayList<Vector2f> texCoords = new ArrayList<>();
+        ArrayList<Vector2f> textureCoords = new ArrayList<>();
 
         AIVector3D.Buffer aiVertices = mesh.mVertices();
 
@@ -72,7 +71,7 @@ public class AssimpModelLoader {
         if (aiTexCoords != null){
             while (aiTexCoords.remaining() > 0) {
                 AIVector3D aiTexCoord = aiTexCoords.get();
-                texCoords.add(new Vector2f(aiTexCoord.x(),aiTexCoord.y()));
+                textureCoords.add(new Vector2f(aiTexCoord.x(),aiTexCoord.y()));
             }
         }
 
@@ -80,8 +79,8 @@ public class AssimpModelLoader {
             Vertex vertex = new Vertex();
             vertex.setPosition(vertices.get(i));
 
-            if (!texCoords.isEmpty())
-                vertex.setTexCoord(texCoords.get(i));
+            if (!textureCoords.isEmpty())
+                vertex.setTexCoord(textureCoords.get(i));
 
             vertexList.add(vertex);
         }
@@ -106,7 +105,6 @@ public class AssimpModelLoader {
     }
 
     private static Material generateMaterial(AIMaterial aiMaterial, String fileDir) {
-
         AIString path = AIString.calloc();
         Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_DIFFUSE, 0, path, (IntBuffer) null, null, null, null, null, null);
         String textPath = path.dataString();
@@ -114,14 +112,15 @@ public class AssimpModelLoader {
         Texture diffuseTexture = null;
 
         if (textPath.length() > 0) {
-            diffuseTexture = new Texture();
-            diffuseTexture.setId(TextureManager.getInstance().loadTexture("/models/" + fileDir + textPath));
+            System.out.println("/models/" + fileDir + " tp : " +textPath);
+            int textureId = TextureManager.getInstance().loadTexture("/models/" + fileDir + textPath);
+            diffuseTexture = new Texture(textureId);
         }
 
         AIColor4D color = AIColor4D.create();
-        Vector3f diffuseColor = null;
         int result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT, Assimp.aiTextureType_NONE, 0, color);
 
+        Vector3f diffuseColor = null;
         if (result == 0) {
             diffuseColor = new Vector3f(color.r(), color.g(), color.b());
         }

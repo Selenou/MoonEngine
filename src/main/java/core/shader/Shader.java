@@ -133,7 +133,7 @@ public abstract class Shader {
      * @param fileName name of the file
      * @return the shader's source code as string
      */
-    public static String loadShader(String fileName) {
+    protected String loadShader(String fileName) {
         StringBuilder shaderSource = new StringBuilder();
         BufferedReader shaderReader;
         try {

@@ -1,7 +1,6 @@
 package core.kernel;
 
 import core.config.Config;
-import core.utils.ResourceLoader;
 import core.utils.Utils;
 import org.lwjgl.glfw.GLFWImage;
 
@@ -55,7 +54,7 @@ public class Window {
             glfwSwapInterval(1);
         }
 
-        this.setWindowIcon("logo.png");
+        this.setWindowIcon();
 
         // callback for Framebuffer resizing
         glfwSetFramebufferSizeCallback(this.window, (window, widthCb, heightCb) -> this.updateWindowDimension(widthCb, heightCb));
@@ -68,7 +67,7 @@ public class Window {
         glfwSwapBuffers(this.window); // swap the color buffers
     }
 
-    public void updateWindowDimension(int width, int height) {
+    private void updateWindowDimension(int width, int height) {
         this.width = width;
         this.height = height;
         glViewport(0, 0, this.width, this.height);
@@ -82,8 +81,8 @@ public class Window {
         glfwDestroyWindow(this.window);
     }
 
-    private void setWindowIcon(String fileName) {
-        ByteBuffer imageBuffer = Utils.loadImage(fileName);
+    private void setWindowIcon() {
+        ByteBuffer imageBuffer = Utils.loadImage("logo.png");
         GLFWImage image = GLFWImage.malloc();
         image.set(48, 48, imageBuffer);
         GLFWImage.Buffer images = GLFWImage.malloc(1);

@@ -30,7 +30,7 @@ public class TextureManager {
     }
 
     public int loadTexture(String textureDirectory) {
-        textureDirectory = textureDirectory.replace("\\", "/");
+        //textureDirectory = textureDirectory.replace("\\", "/"); //todo check sur linux/macos
         String path = Utils.getAbsolutePath(textureDirectory);
 
         if(this.textureCache.containsKey(path)){
