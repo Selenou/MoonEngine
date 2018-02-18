@@ -27,12 +27,14 @@ public class RenderingEngine {
         }
     }
 
-    public void clearScreen() {
+    private void clearScreen() {
         // clear the framebuffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    public void render() {
+    public void render(AbstractGame game) {
+        this.clearScreen();
+        game.render();
         this.window.render();
     }
 

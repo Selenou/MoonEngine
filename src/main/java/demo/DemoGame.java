@@ -10,6 +10,8 @@ import core.scene.Camera;
 import core.scene.GameObject;
 import core.shader.DefaultShader;
 import core.utils.AssimpModelLoader;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -33,32 +35,13 @@ public class DemoGame extends AbstractGame {
             Renderer renderer = new Renderer(vbo, DefaultShader.getInstance());
             cubeChild.addComponent("model", model);
             cubeChild.addComponent("renderer", renderer);
-            cubeChild.addComponent("material", model.getMaterial());
-            //cubeChild.getTransform().setRotation(new Quaternionf(new AxisAngle4f((float)Math.toRadians(-90),1,0,0)));
+            cubeChild.getTransform().setRotation(new Quaternionf(new AxisAngle4f((float)Math.toRadians(-90),1,0,0)));
             cubeChild.getTransform().setScale(new Vector3f(0.2f));
             cubeChild.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
             cube.addChild(cubeChild);
         }
 
         this.scene.getRootNode().addChild(cube);
-
-        GameObject cube2 = new GameObject();
-
-        for(Model model : modelList){
-            GameObject cubeChild = new GameObject();
-            VBO vbo = new VBO();
-            vbo.allocate(model.getMesh());
-            Renderer renderer = new Renderer(vbo, DefaultShader.getInstance());
-            cubeChild.addComponent("model", model);
-            cubeChild.addComponent("renderer", renderer);
-            cubeChild.addComponent("material", model.getMaterial());
-            //cubeChild.getTransform().setRotation(new Quaternionf(new AxisAngle4f((float)Math.toRadians(-90),1,0,0)));
-            cubeChild.getTransform().setScale(new Vector3f(0.3f));
-            cubeChild.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
-            cube2.addChild(cubeChild);
-        }
-
-        this.scene.getRootNode().addChild(cube2);
     }
 
     @Override

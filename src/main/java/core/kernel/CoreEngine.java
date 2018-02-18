@@ -124,12 +124,9 @@ public class CoreEngine {
     }
 
     private void render() {
-        this.renderingEngine.clearScreen();
-        this.game.render();
-        this.renderingEngine.render();
+        this.renderingEngine.render(this.game);
     }
 
-    //todo game dispose ?
     private void cleanUp() {
         this.window.dispose();
 

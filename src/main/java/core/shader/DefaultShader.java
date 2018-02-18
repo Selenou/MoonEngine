@@ -1,7 +1,7 @@
 package core.shader;
 
 import core.kernel.CoreEngine;
-import core.model.Material;
+import core.model.Model;
 import core.scene.GameObject;
 
 public class DefaultShader extends Shader {
@@ -22,9 +22,12 @@ public class DefaultShader extends Shader {
 
     public void updateUniforms(GameObject object) {
         this.setUniform("MVP", CoreEngine.getInstance().getGame().getScene().getMainCamera().getViewProjectionMatrix().mul(object.getTransform().getModelMatrix()));
-        this.setUniform("COLOR", ((Material)object.getComponent("material")).getColor());
-        if(((Material) object.getComponent("material")).getDiffusemap() != null)
-            ((Material) object.getComponent("material")).getDiffusemap().bind();
+
+        Model model = ((Model)object.getComponent("model"));
+
+        this.setUniform("COLOR", model.getMaterial().getColor());
+        if(model.getMaterial().getDiffusemap() != null)
+            model.getMaterial().getDiffusemap().bind();
     }
 
     public static DefaultShader getInstance() {

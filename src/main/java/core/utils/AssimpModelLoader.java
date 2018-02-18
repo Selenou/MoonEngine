@@ -109,6 +109,9 @@ public class AssimpModelLoader {
         Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_DIFFUSE, 0, path, (IntBuffer) null, null, null, null, null, null);
         String textPath = path.dataString();
 
+        // need this for linux and macOs
+        textPath = textPath.replace("\\", "/");
+
         Texture diffuseTexture = null;
 
         if (textPath.length() > 0) {

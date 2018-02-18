@@ -1,11 +1,10 @@
 package core.model;
 
-import core.scene.Component;
 import org.joml.Vector3f;
 
-public class Material extends Component {
+public class Material {
 
-    private Texture diffusemap;
+    private Texture diffuseMap;
     private Vector3f color;
 
     public Material() {
@@ -21,10 +20,10 @@ public class Material extends Component {
     }
 
     public Texture getDiffusemap() {
-        return this.diffusemap;
+        return this.diffuseMap;
     }
 
     public void setDiffusemap(Texture diffusemap) {
-        this.diffusemap = diffusemap;
+        this.diffuseMap = diffusemap;
     }
 }
