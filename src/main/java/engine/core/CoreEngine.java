@@ -4,6 +4,7 @@ import engine.audio.AudioEngine;
 import engine.audio.AudioSource;
 import engine.config.Config;
 import engine.input.Input;
+import engine.utils.TextureManager;
 import engine.utils.Utils;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
@@ -135,6 +136,8 @@ public class CoreEngine {
     private void cleanUp() {
         this.window.dispose();
         this.audioEngine.cleanUp();
+
+        TextureManager.getInstance().cleanUp();
 
         // Terminate GLFW and free the error callback
         glfwTerminate();

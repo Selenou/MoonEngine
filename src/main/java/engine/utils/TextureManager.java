@@ -89,4 +89,10 @@ public class TextureManager {
             return texId;
         }
     }
+
+    public void cleanUp() {
+        for(int textureId : textureCache.values()) {
+            glDeleteTextures(textureId);
+        }
+    }
 }
