@@ -1,15 +1,17 @@
 package demo;
 
-import core.buffer.VBO;
-import core.config.Config;
-import core.input.Input;
-import core.kernel.AbstractGame;
-import core.model.Model;
-import core.model.Renderer;
-import core.scene.Camera;
-import core.scene.GameObject;
-import core.shader.DefaultShader;
-import core.utils.AssimpModelLoader;
+import engine.audio.AudioSource;
+import engine.buffer.VBO;
+import engine.config.Config;
+import engine.core.CoreEngine;
+import engine.input.Input;
+import engine.core.AbstractGame;
+import engine.model.Model;
+import engine.model.Renderer;
+import engine.scene.Camera;
+import engine.scene.GameObject;
+import engine.shader.DefaultShader;
+import engine.utils.AssimpModelLoader;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -40,6 +42,12 @@ public class DemoGame extends AbstractGame {
             cubeChild.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
             cube.addChild(cubeChild);
         }
+
+        AudioSource source = new AudioSource();
+        source.setLooping(true);
+        int soundBuffer = CoreEngine.getInstance().getAudioEngine().loadSound("zelda.ogg");
+        source.play(soundBuffer); //todo play dans component + load les sons au début + dico audio engine ?
+        cube.addComponent("source", source);
 
         this.scene.getRootNode().addChild(cube);
     }

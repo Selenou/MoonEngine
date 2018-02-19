@@ -1,6 +1,6 @@
 package demo;
 
-import core.kernel.CoreEngine;
+import engine.core.CoreEngine;
 
 public class Main {
 
