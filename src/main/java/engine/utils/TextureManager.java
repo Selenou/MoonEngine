@@ -92,7 +92,7 @@ public class TextureManager {
         }
     }
 
-    public void cleanUp() {
+    public void cleanup() {
         for(int textureId : textureCache.values()) {
             glDeleteTextures(textureId);
         }

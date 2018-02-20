@@ -19,4 +19,10 @@ public class Renderer extends Component {
         this.shader.updateUniforms(this.getParent());
         this.vbo.draw();
     }
+
+    public void cleanup() {
+        super.cleanup();
+        this.vbo.cleanup();
+        this.shader.cleanup();
+    }
 }

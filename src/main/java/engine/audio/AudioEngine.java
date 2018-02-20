@@ -91,7 +91,7 @@ public class AudioEngine {
     /**
      * Terminate OpenAL
      */
-    public void cleanUp() {
+    public void cleanup() {
         for(int buffer : this.buffers.values()) {
             alDeleteBuffers(buffer);
         }

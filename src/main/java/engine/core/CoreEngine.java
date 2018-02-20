@@ -120,7 +120,7 @@ public class CoreEngine {
             }
         }
 
-        this.cleanUp();
+        this.cleanup();
     }
 
     private void update(float deltaTime) {
@@ -133,11 +133,12 @@ public class CoreEngine {
         this.renderingEngine.render(this.game);
     }
 
-    private void cleanUp() {
-        this.window.cleanUp();
-        this.audioEngine.cleanUp();
+    private void cleanup() {
+        this.window.cleanup();
+        this.audioEngine.cleanup();
+        this.game.cleanup();
 
-        TextureManager.getInstance().cleanUp();
+        TextureManager.getInstance().cleanup();
 
         // Terminate GLFW and free the error callback
         glfwTerminate();

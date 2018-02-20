@@ -75,7 +75,7 @@ public class Window {
 
     }
 
-    public void cleanUp() {
+    public void cleanup() {
         // Free the window callbacks and destroy the window
         glfwFreeCallbacks(this.window);
         glfwDestroyWindow(this.window);

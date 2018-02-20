@@ -152,4 +152,15 @@ public abstract class Shader {
 
         return shaderSource.toString();
     }
+
+    public void unbind() {
+        glUseProgram(0);
+    }
+
+    public void cleanup() {
+        this.unbind();
+        if (this.program != 0) {
+            glDeleteProgram(this.program);
+        }
+    }
 }

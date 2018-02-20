@@ -29,4 +29,8 @@ public abstract class Component {
     public void setParent(GameObject parent) {
         this.parent = parent;
     }
+
+    public void cleanup() {
+
+    }
 }

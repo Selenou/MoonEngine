@@ -42,4 +42,11 @@ public class GameObject extends Node {
 
         super.render();
     }
+
+    public void cleanup() {
+        for(String name : this.components.keySet())
+            this.components.get(name).cleanup();
+
+        super.cleanup();
+    }
 }

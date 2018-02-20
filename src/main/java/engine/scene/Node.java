@@ -48,4 +48,9 @@ public class Node {
     public Transform getTransform() {
         return this.transform;
     }
+
+    public void cleanup() {
+        for(Node child : this.children)
+            child.cleanup();
+    }
 }

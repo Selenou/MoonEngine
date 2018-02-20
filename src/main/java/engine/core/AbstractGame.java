@@ -27,4 +27,8 @@ public abstract class AbstractGame {
     public Scene getScene() {
         return this.scene;
     }
+
+    public void cleanup() {
+        this.scene.cleanup();
+    }
 }

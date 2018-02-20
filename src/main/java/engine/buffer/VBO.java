@@ -53,7 +53,7 @@ public class VBO {
         this.vao.unbind();
     }
 
-    public void cleanUp() {
+    public void cleanup() {
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
 
@@ -62,6 +62,6 @@ public class VBO {
         glDeleteBuffers(this.vbo);
         glDeleteBuffers(this.ebo);
 
-        this.vao.cleanUp();
+        this.vao.cleanup();
     }
 }

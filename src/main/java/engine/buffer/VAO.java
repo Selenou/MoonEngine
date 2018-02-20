@@ -18,7 +18,7 @@ public class VAO {
         glBindVertexArray(0);
     }
 
-    public void cleanUp() {
+    public void cleanup() {
         this.unbind();
         glDeleteVertexArrays(this.id);
     }

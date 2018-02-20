@@ -34,4 +34,8 @@ public class Scene extends Node {
     public Node getRootNode() {
         return this.rootNode;
     }
+
+    public void cleanup() {
+        this.rootNode.cleanup();
+    }
 }
