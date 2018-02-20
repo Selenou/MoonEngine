@@ -12,8 +12,6 @@ import engine.scene.Camera;
 import engine.scene.GameObject;
 import engine.shader.DefaultShader;
 import engine.utils.AssimpModelLoader;
-import org.joml.AxisAngle4f;
-import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ public class DemoGame extends AbstractGame {
     public DemoGame() {
         super();
 
-        ArrayList<Model> modelList = AssimpModelLoader.loadModel("mage/", "mage.FBX");
+        ArrayList<Model> modelList = AssimpModelLoader.loadModel("nanosuit/", "nanosuit.obj");
 
         GameObject cube = new GameObject();
 
@@ -37,7 +35,6 @@ public class DemoGame extends AbstractGame {
             Renderer renderer = new Renderer(vbo, DefaultShader.getInstance());
             cubeChild.addComponent("model", model);
             cubeChild.addComponent("renderer", renderer);
-            cubeChild.getTransform().setRotation(new Quaternionf(new AxisAngle4f((float)Math.toRadians(-90),1,0,0)));
             cubeChild.getTransform().setScale(new Vector3f(0.2f));
             cubeChild.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
             cube.addChild(cubeChild);

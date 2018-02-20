@@ -17,7 +17,7 @@ public class DefaultShader extends Shader {
         this.compileShader();
 
         this.addUniform("MVP");
-        this.addUniform("COLOR");
+        this.addUniform("diffuseColor");
     }
 
     public void updateUniforms(GameObject object) {
@@ -25,7 +25,7 @@ public class DefaultShader extends Shader {
 
         Model model = ((Model)object.getComponent("model"));
 
-        this.setUniform("COLOR", model.getMaterial().getColor());
+        this.setUniform("diffuseColor", model.getMaterial().getDiffuseColor());
         if(model.getMaterial().getDiffusemap() != null)
             model.getMaterial().getDiffusemap().bind();
     }

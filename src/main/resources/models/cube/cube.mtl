@@ -9,5 +9,4 @@ newmtl cube
   Kd 0.5880 0.5880 0.5880
   Ks 0.0000 0.0000 0.0000
   Ke 0.0000 0.0000 0.0000
-  map_Ka cube.jpg
   map_Kd cube.jpg

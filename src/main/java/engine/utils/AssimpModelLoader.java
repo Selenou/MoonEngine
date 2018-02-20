@@ -120,7 +120,7 @@ public class AssimpModelLoader {
         }
 
         AIColor4D color = AIColor4D.create();
-        int result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT, Assimp.aiTextureType_NONE, 0, color);
+        int result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE, Assimp.aiTextureType_NONE, 0, color);
 
         Vector3f diffuseColor = null;
         if (result == 0) {
@@ -128,7 +128,7 @@ public class AssimpModelLoader {
         }
 
         Material material = new Material();
-        material.setColor(diffuseColor);
+        material.setDiffuseColor(diffuseColor);
         material.setDiffusemap(diffuseTexture);
 
         return material;

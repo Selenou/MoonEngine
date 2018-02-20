@@ -1,5 +1,6 @@
 package engine.utils;
 
+import engine.config.Config;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
@@ -58,28 +59,29 @@ public class TextureManager {
             int texId = glGenTextures();
 
             glBindTexture(GL_TEXTURE_2D, texId);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // texture minifying function
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // texture magnification function
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // x axis
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); // y axis
 
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // texture minifying function
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // texture magnification function
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // x axis
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); // y axis
+                // we can start generating a texture using the previously loaded image data
 
-            // we can start generating a texture using the previously loaded image data
+                // PNG
+                if(channels == 4){
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageBuffer);
+                }
+                else { // JPG
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageBuffer);
+                }
+                // once glTexImage2D is called, the currently bound texture object now has the texture image attached to it
 
-            // PNG
-            if(channels == 4){
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageBuffer);
-            }
-            else { // JPG
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageBuffer);
-            }
-
-            // once glTexImage2D is called, the currently bound texture object now has the texture image attached to it
-
-            // if you want mipmap
-            glTexParameteri(GL_TEXTURE_2D, GL_NEAREST_MIPMAP_LINEAR, GL_NEAREST);
-            // stored smaller versions of a texture where the appropriate sized version is chosen based on the distance to the viewer
-            glGenerateMipmap(GL_TEXTURE_2D);
+                if(Config.MIPMAP_ENABLED) {
+                    // Mipmap
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+                    // stored smaller versions of a texture where the appropriate sized version is chosen based on the distance to the viewer
+                    glGenerateMipmap(GL_TEXTURE_2D);
+                }
+            glBindTexture(GL_TEXTURE_2D, 0);
 
             // it is good practice to free the image memory
             stbi_image_free(imageBuffer);
