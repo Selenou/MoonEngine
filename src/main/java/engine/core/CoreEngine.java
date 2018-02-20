@@ -134,7 +134,7 @@ public class CoreEngine {
     }
 
     private void cleanUp() {
-        this.window.dispose();
+        this.window.cleanUp();
         this.audioEngine.cleanUp();
 
         TextureManager.getInstance().cleanUp();

@@ -32,7 +32,7 @@ public class AudioSource extends Component {
         alSourceStop(this.sourceId);
     }
 
-    public void dispose() {
+    public void cleanUp() {
         this.stop();
         alDeleteBuffers(sourceId);
     }

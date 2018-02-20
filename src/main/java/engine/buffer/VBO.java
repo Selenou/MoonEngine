@@ -38,14 +38,30 @@ public class VBO {
             glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * Float.BYTES, 0); // position
             glVertexAttribPointer(1, 2, GL_FLOAT, false, Vertex.SIZE * Float.BYTES, 3 * Float.BYTES ); // texture
 
-            glEnableVertexAttribArray(0);
-            glEnableVertexAttribArray(1);
+            // unbind vbo
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
         this.vao.unbind();
     }
 
     public void draw() {
         this.vao.bind();
+            glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(1);
             glDrawElements(GL_TRIANGLES, this.size, GL_UNSIGNED_INT, 0);
+            glDisableVertexAttribArray(0);
+            glDisableVertexAttribArray(1);
         this.vao.unbind();
+    }
+
+    public void cleanUp() {
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+
+        // Delete the VBOs
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDeleteBuffers(this.vbo);
+        glDeleteBuffers(this.ebo);
+
+        this.vao.cleanUp();
     }
 }

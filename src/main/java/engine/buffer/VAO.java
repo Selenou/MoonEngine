@@ -1,7 +1,6 @@
 package engine.buffer;
 
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+import static org.lwjgl.opengl.GL30.*;
 
 public class VAO {
 
@@ -17,5 +16,10 @@ public class VAO {
 
     public void unbind() {
         glBindVertexArray(0);
+    }
+
+    public void cleanUp() {
+        this.unbind();
+        glDeleteVertexArrays(this.id);
     }
 }
