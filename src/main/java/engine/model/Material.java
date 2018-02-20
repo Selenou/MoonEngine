@@ -46,4 +46,9 @@ public class Material {
     public void setDiffusemap(Texture diffusemap) {
         this.diffuseMap = diffusemap;
     }
+
+    public void cleanup() {
+        if(this.diffuseMap != null)
+            this.diffuseMap.cleanup();
+    }
 }

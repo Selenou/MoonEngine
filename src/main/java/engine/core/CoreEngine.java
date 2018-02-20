@@ -138,8 +138,6 @@ public class CoreEngine {
         this.audioEngine.cleanup();
         this.game.cleanup();
 
-        TextureManager.getInstance().cleanup();
-
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();

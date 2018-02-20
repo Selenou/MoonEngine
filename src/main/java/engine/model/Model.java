@@ -30,5 +30,8 @@ public class Model {
     public void cleanup() {
         for (Mesh mesh : meshes)
             mesh.cleanup();
+
+        for (Material material : materials)
+            material.cleanup();
     }
 }
