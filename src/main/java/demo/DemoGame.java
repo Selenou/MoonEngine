@@ -26,27 +26,34 @@ public class DemoGame extends AbstractGame {
 
         ArrayList<Model> modelList = AssimpModelLoader.loadModel("nanosuit/", "nanosuit.obj");
 
-        GameObject cube = new GameObject();
+        GameObject nanosuit = new GameObject();
 
         for(Model model : modelList){
-            GameObject cubeChild = new GameObject();
             VBO vbo = new VBO();
             vbo.allocate(model.getMesh());
             Renderer renderer = new Renderer(vbo, DefaultShader.getInstance());
-            cubeChild.addComponent("model", model);
-            cubeChild.addComponent("renderer", renderer);
-            cubeChild.getTransform().setScale(new Vector3f(0.2f));
-            cubeChild.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
-            cube.addChild(cubeChild);
+
+            GameObject subObj = new GameObject();
+            subObj.addComponent("model", model);
+            subObj.addComponent("renderer", renderer);
+
+            nanosuit.addChild(subObj);
         }
 
-        AudioSource source = new AudioSource();
-        source.setLooping(true);
-        int soundBuffer = CoreEngine.getInstance().getAudioEngine().loadSound("zelda.ogg");
-        source.play(soundBuffer); //todo play dans component + load les sons au début + dico audio engine ?
-        cube.addComponent("source", source);
+        nanosuit.getTransform().setScale(new Vector3f(0.2f));
+        nanosuit.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
 
-        this.scene.getRootNode().addChild(cube);
+        this.scene.getRootNode().addChild(nanosuit);
+
+        /*
+        GameObject bgm = new GameObject();
+        AudioSource bgmSource = new AudioSource();
+        bgmSource.setLooping(true);
+        int soundBuffer = CoreEngine.getInstance().getAudioEngine().loadSound("zelda.ogg");
+        bgmSource.play(soundBuffer); //todo play dans component + load les sons au début + dico audio engine ?
+        bgm.addComponent("source", bgmSource);
+        this.scene.getRootNode().addChild(bgm);
+        */
     }
 
     @Override

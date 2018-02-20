@@ -124,7 +124,8 @@ public class AssimpModelLoader {
 
         Vector3f diffuseColor = null;
         if (result == 0) {
-            diffuseColor = new Vector3f(color.r(), color.g(), color.b());
+            //diffuseColor = new Vector3f(color.r(), color.g(), color.b());
+            diffuseColor = new Vector3f(1, 1, 1); //todo temporaire
         }
 
         Material material = new Material();
