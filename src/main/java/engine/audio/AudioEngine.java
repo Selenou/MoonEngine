@@ -5,13 +5,13 @@ import org.joml.Vector3f;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
-import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
@@ -21,7 +21,7 @@ import static org.lwjgl.system.libc.LibCStdlib.free;
 
 public class AudioEngine {
 
-    private ArrayList<Integer> buffers;
+    private HashMap<String, Integer> buffers;
     private long device;
     private long context;
 
@@ -43,14 +43,14 @@ public class AudioEngine {
         ALCCapabilities deviceCaps = ALC.createCapabilities(this.device);
         AL.createCapabilities(deviceCaps);
 
-        this.buffers = new ArrayList<>();
+        this.buffers = new HashMap<>();
     }
 
     private void setListenerPosition(Vector3f position){
         alListener3f(AL_POSITION, position.x(), position.y(), position.z());
     }
 
-    public int loadSound(String fileName) {
+    public void loadSound(String fileName) {
         String path = Utils.getAbsolutePath("/audio/" + fileName);
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
@@ -70,7 +70,7 @@ public class AudioEngine {
             int format = (channels == 1) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
 
             int bufferPointer = alGenBuffers();
-            this.buffers.add(bufferPointer);
+            this.buffers.put(fileName, bufferPointer);
 
             // send the data to OpenAL
             // buffers containing audio data with more than one channel will be played without 3D spatialization features
@@ -78,16 +78,21 @@ public class AudioEngine {
 
             // free the memory allocated by STB
             free(rawAudioBuffer);
-
-            return bufferPointer;
         }
+    }
+
+    public int getSoundBuffer(String fileName) {
+        if(!this.buffers.containsKey(fileName))
+            throw new RuntimeException("Failed to get this sound buffer. Maybe it wasn't loaded");
+
+        return this.buffers.get(fileName);
     }
 
     /**
      * Terminate OpenAL
      */
     public void cleanUp() {
-        for(int buffer : this.buffers) {
+        for(int buffer : this.buffers.values()) {
             alDeleteBuffers(buffer);
         }
 

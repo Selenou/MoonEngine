@@ -23,16 +23,10 @@ public class AssimpModelLoader {
             throw new IllegalStateException("Failed to load a model !" + System.lineSeparator() + aiGetErrorString());
         }
 
-        ArrayList<Model> models = new ArrayList<>();
+        // materials
         ArrayList<Material> materials = new ArrayList<>();
-
-        int meshCount = scene.mNumMeshes();
-        PointerBuffer meshesBuffer = scene.mMeshes();
-
         int materialCount = scene.mNumMaterials();
         PointerBuffer materialsBuffer = scene.mMaterials();
-
-        System.out.println("Loading " + materialCount + " materials | " + meshCount + " meshes");
 
         if (materialsBuffer != null){
             for (int i = 0; i < materialCount; i++) {
@@ -41,6 +35,11 @@ public class AssimpModelLoader {
                 materials.add(material);
             }
         }
+
+        // meshes
+        ArrayList<Model> models = new ArrayList<>();
+        int meshCount = scene.mNumMeshes();
+        PointerBuffer meshesBuffer = scene.mMeshes();
 
         if (meshesBuffer != null) {
             for (int i = 0; i < meshCount; ++i) {
@@ -121,6 +120,7 @@ public class AssimpModelLoader {
         }
 
         AIColor4D color = AIColor4D.create();
+
         int result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE, Assimp.aiTextureType_NONE, 0, color);
 
         Vector3f diffuseColor = null;
@@ -128,9 +128,25 @@ public class AssimpModelLoader {
             diffuseColor = new Vector3f(color.r(), color.g(), color.b());
         }
 
+        result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT, Assimp.aiTextureType_NONE, 0, color);
+
+        Vector3f ambientColor = null;
+        if (result == 0) {
+            ambientColor = new Vector3f(color.r(), color.g(), color.b());
+        }
+
+        result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR, Assimp.aiTextureType_NONE, 0, color);
+
+        Vector3f specularColor = null;
+        if (result == 0) {
+            specularColor = new Vector3f(color.r(), color.g(), color.b());
+        }
+
         Material material = new Material();
-        material.setDiffuseColor(diffuseColor);
         material.setDiffusemap(diffuseTexture);
+        material.setDiffuseColor(diffuseColor);
+        material.setAmbientColor(ambientColor);
+        material.setSpecularColor(specularColor);
 
         return material;
     }

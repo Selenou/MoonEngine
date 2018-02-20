@@ -6,6 +6,8 @@ public class Material {
 
     private Texture diffuseMap;
     private Vector3f diffuseColor;
+    private Vector3f ambientColor;
+    private Vector3f specularColor;
 
     public Material() {
 
@@ -15,12 +17,28 @@ public class Material {
         return this.diffuseColor;
     }
 
-    public void setDiffuseColor(Vector3f color) {
-        this.diffuseColor = color;
+    public Vector3f getAmbientColor() {
+        return this.ambientColor;
+    }
+
+    public Vector3f getSpecularColor() {
+        return this.specularColor;
     }
 
     public Texture getDiffusemap() {
         return this.diffuseMap;
+    }
+
+    public void setDiffuseColor(Vector3f color) {
+        this.diffuseColor = color;
+    }
+
+    public void setAmbientColor(Vector3f ambientColor) {
+        this.ambientColor = ambientColor;
+    }
+
+    public void setSpecularColor(Vector3f specularColor) {
+        this.specularColor = specularColor;
     }
 
     public void setDiffusemap(Texture diffusemap) {

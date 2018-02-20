@@ -102,7 +102,6 @@ public abstract class Shader {
         // returns 0 if an error occurs validating the program object
         if(glGetProgrami(this.program, GL_VALIDATE_STATUS) == 0) {
             System.err.println(glGetProgramInfoLog(this.program, 1024));
-            //System.exit(1); // bug macOs : need to comment this line or the vao's unbinding in the allocate method
         }
     }
 

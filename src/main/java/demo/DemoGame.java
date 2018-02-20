@@ -24,8 +24,12 @@ public class DemoGame extends AbstractGame {
     public DemoGame() {
         super();
 
-        ArrayList<Model> modelList = AssimpModelLoader.loadModel("nanosuit/", "nanosuit.obj");
+        // preload sounds
+        CoreEngine.getInstance().getAudioEngine().loadSound("zelda.ogg");
 
+
+        // GFX stuff
+        ArrayList<Model> modelList = AssimpModelLoader.loadModel("nanosuit/", "nanosuit.obj");
         GameObject nanosuit = new GameObject();
 
         for(Model model : modelList){
@@ -42,18 +46,14 @@ public class DemoGame extends AbstractGame {
 
         nanosuit.getTransform().setScale(new Vector3f(0.2f));
         nanosuit.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
-
         this.scene.getRootNode().addChild(nanosuit);
 
-        /*
-        GameObject bgm = new GameObject();
+
+
+        // bgm
         AudioSource bgmSource = new AudioSource();
+        bgmSource.play(CoreEngine.getInstance().getAudioEngine().getSoundBuffer("zelda.ogg"));
         bgmSource.setLooping(true);
-        int soundBuffer = CoreEngine.getInstance().getAudioEngine().loadSound("zelda.ogg");
-        bgmSource.play(soundBuffer); //todo play dans component + load les sons au début + dico audio engine ?
-        bgm.addComponent("source", bgmSource);
-        this.scene.getRootNode().addChild(bgm);
-        */
     }
 
     @Override
