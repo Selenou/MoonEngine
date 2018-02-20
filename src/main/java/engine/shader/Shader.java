@@ -1,5 +1,6 @@
 package engine.shader;
 
+import engine.model.Model;
 import engine.scene.GameObject;
 import engine.utils.BufferHelper;
 import engine.utils.Utils;
@@ -70,7 +71,7 @@ public abstract class Shader {
         glAttachShader(this.program, shader);
     }
 
-    public void updateUniforms(GameObject object) {
+    public void updateUniforms(GameObject object, Model model, int materialIndex) {
 
     }
 

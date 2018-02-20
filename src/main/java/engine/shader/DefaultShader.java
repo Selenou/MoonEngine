@@ -20,14 +20,12 @@ public class DefaultShader extends Shader {
         this.addUniform("diffuseColor");
     }
 
-    public void updateUniforms(GameObject object) {
+    public void updateUniforms(GameObject object, Model model, int materialIndex) {
         this.setUniform("MVP", CoreEngine.getInstance().getGame().getScene().getMainCamera().getViewProjectionMatrix().mul(object.getTransform().getModelMatrix()));
+        this.setUniform("diffuseColor", model.getMaterials().get(materialIndex).getDiffuseColor());
 
-        Model model = ((Model)object.getComponent("model"));
-
-        this.setUniform("diffuseColor", model.getMaterial().getDiffuseColor());
-        if(model.getMaterial().getDiffusemap() != null)
-            model.getMaterial().getDiffusemap().bind();
+        if(model.getMaterials().get(materialIndex).getDiffusemap() != null)
+            model.getMaterials().get(materialIndex).getDiffusemap().bind();
     }
 
     public static DefaultShader getInstance() {

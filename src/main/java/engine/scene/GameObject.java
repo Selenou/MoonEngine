@@ -1,5 +1,6 @@
 package engine.scene;
 
+import engine.component.Component;
 import engine.input.Input;
 
 import java.util.HashMap;

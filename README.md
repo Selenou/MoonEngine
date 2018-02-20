@@ -11,10 +11,13 @@ Java based game engine
 + enjoy :)
 
 ## TODO
-+ Lighting basic
-+ Lighting advanced
-+ Material and stuff
-+ [Better memory management](https://github.com/LWJGL/lwjgl3-wiki/wiki/1.3.-Memory-FAQ)
++ Material and assimp stuff
++ HUD and text
++ Skybox
++ Terrain
++ Lighting basic (phong ?)
++ Lighting advanced (deferred shading)
++ Animation
 
 ## Site
 https://selenou.github.io/MoonEngine/

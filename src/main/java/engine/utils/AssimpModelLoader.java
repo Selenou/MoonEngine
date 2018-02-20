@@ -13,7 +13,7 @@ import static org.lwjgl.assimp.Assimp.*;
 
 public class AssimpModelLoader {
 
-    public static ArrayList<Model> loadModel(String fileDir, String fileName){
+    public static Model loadModel(String fileDir, String fileName){
         String path = Utils.getAbsolutePath("/models/" + fileDir + fileName);
 
         // the flag aiProcess_RemoveRedundantMaterials is a big tricky. If we do not precise it, there is 1 more material at index 0, which is pretty useless atm
@@ -37,7 +37,7 @@ public class AssimpModelLoader {
         }
 
         // meshes
-        ArrayList<Model> models = new ArrayList<>();
+        ArrayList<Mesh> meshes = new ArrayList<>();
         int meshCount = scene.mNumMeshes();
         PointerBuffer meshesBuffer = scene.mMeshes();
 
@@ -45,12 +45,11 @@ public class AssimpModelLoader {
             for (int i = 0; i < meshCount; ++i) {
                 AIMesh aiMesh = AIMesh.create(meshesBuffer.get(i));
                 Mesh mesh = generateMesh(aiMesh);
-                Model model = new Model(mesh, materials.get(aiMesh.mMaterialIndex()));
-                models.add(model);
+                meshes.add(mesh);
             }
         }
 
-        return models;
+        return new Model(meshes, materials);
     }
 
     private static Mesh generateMesh(AIMesh mesh) {
@@ -101,7 +100,7 @@ public class AssimpModelLoader {
         Vertex[] vertex = vertexList.toArray(new Vertex[0]);
         int[] indices = indicesList.stream().mapToInt(i->i).toArray();
 
-        return new Mesh(vertex, indices);
+        return new Mesh(vertex, indices, mesh.mMaterialIndex());
     }
 
     private static Material generateMaterial(AIMaterial aiMaterial, String fileDir) {
@@ -125,7 +124,9 @@ public class AssimpModelLoader {
 
         Vector3f diffuseColor = null;
         if (result == 0) {
-            diffuseColor = new Vector3f(color.r(), color.g(), color.b());
+            //diffuseColor = new Vector3f(color.r(), color.g(), color.b());
+            diffuseColor = new Vector3f(1, 1, 1);
+            System.out.println("fake diffuse color for debugging");
         }
 
         result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT, Assimp.aiTextureType_NONE, 0, color);

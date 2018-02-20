@@ -1,22 +1,34 @@
 package engine.model;
 
-import engine.scene.Component;
+import engine.buffer.VBO;
 
-public class Model extends Component {
+import java.util.ArrayList;
 
-    private Mesh mesh;
-    private Material material;
+public class Model {
 
-    public Model(Mesh mesh, Material material) {
-        this.mesh = mesh;
-        this.material = material;
+    private ArrayList<Mesh> meshes;
+    private ArrayList<Material> materials;
+
+    public Model(ArrayList<Mesh> meshes, ArrayList<Material> materials) {
+        this.meshes = meshes;
+        this.materials = materials;
     }
 
-    public Mesh getMesh() {
-        return this.mesh;
+    public void allocate() {
+        for (Mesh mesh : meshes)
+            mesh.allocate(new VBO());
     }
 
-    public Material getMaterial() {
-        return this.material;
+    public ArrayList<Mesh> getMeshes() {
+        return this.meshes;
+    }
+
+    public ArrayList<Material> getMaterials() {
+        return this.materials;
+    }
+
+    public void cleanup() {
+        for (Mesh mesh : meshes)
+            mesh.cleanup();
     }
 }

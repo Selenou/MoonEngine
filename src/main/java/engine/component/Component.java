@@ -1,6 +1,7 @@
-package engine.scene;
+package engine.component;
 
 import engine.input.Input;
+import engine.scene.GameObject;
 
 public abstract class Component {
 

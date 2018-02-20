@@ -1,6 +1,6 @@
 package engine.audio;
 
-import engine.scene.Component;
+import engine.component.Component;
 import org.joml.Vector3f;
 
 import static org.lwjgl.openal.AL10.*;

@@ -10,7 +10,9 @@ public class Material {
     private Vector3f specularColor;
 
     public Material() {
-
+        this.diffuseColor = new Vector3f();
+        this.ambientColor = new Vector3f();
+        this.specularColor = new Vector3f();
     }
 
     public Vector3f getDiffuseColor() {

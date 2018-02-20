@@ -1,20 +1,18 @@
 package demo;
 
 import engine.audio.AudioSource;
-import engine.buffer.VBO;
+
+import engine.component.Renderer;
 import engine.config.Config;
 import engine.core.CoreEngine;
 import engine.input.Input;
 import engine.core.AbstractGame;
-import engine.model.Model;
-import engine.model.Renderer;
+import engine.model.*;
 import engine.scene.Camera;
 import engine.scene.GameObject;
 import engine.shader.DefaultShader;
 import engine.utils.AssimpModelLoader;
 import org.joml.Vector3f;
-
-import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -27,28 +25,14 @@ public class DemoGame extends AbstractGame {
         // preload sounds
         CoreEngine.getInstance().getAudioEngine().loadSound("zelda.ogg");
 
-
         // GFX stuff
-        ArrayList<Model> modelList = AssimpModelLoader.loadModel("nanosuit/", "nanosuit.obj");
+        Model model = AssimpModelLoader.loadModel("nanosuit/", "nanosuit.obj");
+        model.allocate();
         GameObject nanosuit = new GameObject();
-
-        for(Model model : modelList){
-            VBO vbo = new VBO();
-            vbo.allocate(model.getMesh());
-            Renderer renderer = new Renderer(vbo, DefaultShader.getInstance());
-
-            GameObject subObj = new GameObject();
-            subObj.addComponent("model", model);
-            subObj.addComponent("renderer", renderer);
-
-            nanosuit.addChild(subObj);
-        }
-
+        nanosuit.addComponent("renderer", new Renderer(model, DefaultShader.getInstance()));
         nanosuit.getTransform().setScale(new Vector3f(0.2f));
         nanosuit.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
         this.scene.getRootNode().addChild(nanosuit);
-
-
 
         // bgm
         AudioSource bgmSource = new AudioSource();
