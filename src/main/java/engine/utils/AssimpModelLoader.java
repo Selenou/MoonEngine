@@ -9,16 +9,15 @@ import org.lwjgl.assimp.*;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
-import static org.lwjgl.assimp.Assimp.aiGetErrorString;
-import static org.lwjgl.assimp.Assimp.aiProcess_JoinIdenticalVertices;
-import static org.lwjgl.assimp.Assimp.aiProcess_Triangulate;
+import static org.lwjgl.assimp.Assimp.*;
 
 public class AssimpModelLoader {
 
     public static ArrayList<Model> loadModel(String fileDir, String fileName){
         String path = Utils.getAbsolutePath("/models/" + fileDir + fileName);
 
-        AIScene scene = Assimp.aiImportFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate);
+        // the flag aiProcess_RemoveRedundantMaterials is a big tricky. If we do not precise it, there is 1 more material at index 0, which is pretty useless atm
+        AIScene scene = Assimp.aiImportFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_RemoveRedundantMaterials);
 
         if (scene == null) {
             throw new IllegalStateException("Failed to load a model !" + System.lineSeparator() + aiGetErrorString());
@@ -32,6 +31,8 @@ public class AssimpModelLoader {
 
         int materialCount = scene.mNumMaterials();
         PointerBuffer materialsBuffer = scene.mMaterials();
+
+        System.out.println("Loading " + materialCount + " materials | " + meshCount + " meshes");
 
         if (materialsBuffer != null){
             for (int i = 0; i < materialCount; i++) {
@@ -124,8 +125,7 @@ public class AssimpModelLoader {
 
         Vector3f diffuseColor = null;
         if (result == 0) {
-            //diffuseColor = new Vector3f(color.r(), color.g(), color.b());
-            diffuseColor = new Vector3f(1, 1, 1); //todo temporaire
+            diffuseColor = new Vector3f(color.r(), color.g(), color.b());
         }
 
         Material material = new Material();
