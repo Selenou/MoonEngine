@@ -9,18 +9,16 @@ public class AudioSource extends Component {
 
     private int sourceId;
 
-    //todo ajouter la gestion de l'attenuation (linear, exponential,... cf tuto 4 thinmatrix openal)
     public AudioSource() {
         this.sourceId = alGenSources();
     }
 
-    public void play(int buffer) {
+    public void setBuffer(int bufferId) {
         this.stop();
-        alSourcei(this.sourceId, AL_BUFFER, buffer);
-        this.continuePlaying();
+        alSourcei(sourceId, AL_BUFFER, bufferId);
     }
 
-    public void continuePlaying() {
+    public void play() {
         alSourcePlay(this.sourceId);
     }
 
@@ -30,11 +28,6 @@ public class AudioSource extends Component {
 
     public void stop() {
         alSourceStop(this.sourceId);
-    }
-
-    public void cleanup() {
-        this.stop();
-        alDeleteBuffers(sourceId);
     }
 
     public void setVolume(float volume) {
@@ -59,5 +52,10 @@ public class AudioSource extends Component {
 
     public boolean isPlaying() {
         return alGetSourcei(this.sourceId, AL_SOURCE_STATE) == AL_PLAYING;
+    }
+
+    public void cleanup() {
+        this.stop();
+        alDeleteBuffers(sourceId);
     }
 }

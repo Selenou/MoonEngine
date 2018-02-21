@@ -114,7 +114,7 @@ public class AssimpModelLoader {
         Texture diffuseTexture = null;
 
         if (textPath.length() > 0) {
-            int textureId = TextureManager.getInstance().loadTexture("/models/" + fileDir + textPath);
+            int textureId = TextureLoader.loadTexture("/models/" + fileDir + textPath);
             diffuseTexture = new Texture(textureId);
         }
 

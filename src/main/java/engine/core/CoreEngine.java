@@ -1,11 +1,8 @@
 package engine.core;
 
 import engine.audio.AudioEngine;
-import engine.audio.AudioSource;
 import engine.config.Config;
 import engine.input.Input;
-import engine.utils.TextureManager;
-import engine.utils.Utils;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
 import static org.lwjgl.glfw.GLFW.*;

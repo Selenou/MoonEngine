@@ -11,28 +11,15 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.stb.STBImage.*;
 
-public class TextureManager {
+public class TextureLoader {
 
-    private static TextureManager instance = null;
+    private static HashMap<String, Integer> textureCache = new HashMap<>();
 
-    private HashMap<String, Integer> textureCache;
-
-    public static TextureManager getInstance() {
-        if(instance == null){
-            instance = new TextureManager();
-        }
-        return instance;
-    }
-
-    private TextureManager() {
-        this.textureCache = new HashMap<>();
-    }
-
-    public int loadTexture(String textureDirectory) {
+    public static int loadTexture(String textureDirectory) {
         String path = Utils.getAbsolutePath(textureDirectory);
 
-        if(this.textureCache.containsKey(path)){
-            return this.textureCache.get(path);
+        if(textureCache.containsKey(path)){
+            return textureCache.get(path);
         }
 
         // super efficient : stack is automatically popped, ip memory automatically reclaimed
@@ -86,7 +73,7 @@ public class TextureManager {
             // it is good practice to free the image memory
             stbi_image_free(imageBuffer);
 
-            this.textureCache.put(path, texId);
+            textureCache.put(path, texId);
 
             return texId;
         }
