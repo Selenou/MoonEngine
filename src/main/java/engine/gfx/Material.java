@@ -5,6 +5,7 @@ import org.joml.Vector3f;
 public class Material {
 
     private Texture diffuseMap;
+    private Texture specularMap;
     private Vector3f diffuseColor;
     private Vector3f ambientColor;
     private Vector3f specularColor;
@@ -50,5 +51,13 @@ public class Material {
     public void cleanup() {
         if(this.diffuseMap != null)
             this.diffuseMap.cleanup();
+    }
+
+    public Texture getSpecularMap() {
+        return this.specularMap;
+    }
+
+    public void setSpecularMap(Texture specularMap) {
+        this.specularMap = specularMap;
     }
 }

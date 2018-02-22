@@ -7,6 +7,8 @@ import engine.light.Light;
 import engine.scene.GameObject;
 import org.joml.Vector3f;
 
+import static org.lwjgl.opengl.GL13.*;
+
 public class PhongShader extends Shader {
 
     private static PhongShader instance = null;
@@ -31,11 +33,18 @@ public class PhongShader extends Shader {
         this.addUniform("material.specular");
         this.addUniform("material.shininess");
 
-        this.light = new Light(new Vector3f(1,0,1), new Vector3f(1,1,1), 3.0f);
+        this.light = new Light(new Vector3f(1,0,1), new Vector3f(1,1,1), 2.0f);
 
         this.addUniform("light.position");
         this.addUniform("light.color");
         this.addUniform("light.intensity");
+
+        this.addUniform("material.diffuseMap");
+        this.addUniform("material.specularMap");
+
+        this.bind();
+        this.setUniformi("material.diffuseMap", 0);
+        this.setUniformi("material.specularMap", 1);
     }
 
     public void updateUniforms(GameObject object, Model model, int materialIndex) {
@@ -56,8 +65,15 @@ public class PhongShader extends Shader {
         this.setUniform("light.color", this.light.getColor());
         this.setUniformf("light.intensity", this.light.getIntensity());
 
-        if(model.getMaterials().get(materialIndex).getDiffusemap() != null)
+        if(model.getMaterials().get(materialIndex).getDiffusemap() != null){
+            glActiveTexture(GL_TEXTURE0);
             model.getMaterials().get(materialIndex).getDiffusemap().bind();
+        }
+
+        if(model.getMaterials().get(materialIndex).getSpecularMap() != null){
+            glActiveTexture(GL_TEXTURE1);
+            model.getMaterials().get(materialIndex).getSpecularMap().bind();
+        }
     }
 
     public static PhongShader getInstance() {

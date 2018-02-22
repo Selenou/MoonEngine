@@ -7,6 +7,7 @@ newmtl cube
   illum 2
   Ka 1.0000 1.0000 1.0000
   Kd 0.5880 0.5880 0.5880
-  Ks 0.0000 0.0000 0.0000
+  Ks 1.0000 1.0000 1.0000
   Ke 0.0000 0.0000 0.0000
-  map_Kd cube.jpg
+  map_Kd box.png
+  map_Ks box_specular.png

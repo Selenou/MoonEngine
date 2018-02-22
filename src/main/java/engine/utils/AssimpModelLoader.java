@@ -133,11 +133,24 @@ public class AssimpModelLoader {
         // need this for linux and macOs
         textPath = textPath.replace("\\", "/");
 
-        Texture diffuseTexture = null;
+        Texture diffuseMap = null;
 
         if (textPath.length() > 0) {
             int textureId = TextureLoader.loadTexture("/models/" + fileDir + textPath);
-            diffuseTexture = new Texture(textureId);
+            diffuseMap = new Texture(textureId);
+        }
+
+        Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_SPECULAR, 0, path, (IntBuffer) null, null, null, null, null, null);
+        textPath = path.dataString();
+
+        // need this for linux and macOs
+        textPath = textPath.replace("\\", "/");
+
+        Texture specularMap = null;
+
+        if (textPath.length() > 0) {
+            int textureId = TextureLoader.loadTexture("/models/" + fileDir + textPath);
+            specularMap = new Texture(textureId);
         }
 
         AIColor4D color = AIColor4D.create();
@@ -164,7 +177,8 @@ public class AssimpModelLoader {
         }
 
         Material material = new Material();
-        material.setDiffusemap(diffuseTexture);
+        material.setDiffusemap(diffuseMap);
+        material.setSpecularMap(specularMap);
         material.setDiffuseColor(diffuseColor);
         material.setAmbientColor(ambientColor);
         material.setSpecularColor(specularColor);
