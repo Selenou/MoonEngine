@@ -146,9 +146,7 @@ public class AssimpModelLoader {
 
         Vector3f diffuseColor = null;
         if (result == 0) {
-            //diffuseColor = new Vector3f(color.r(), color.g(), color.b());
-            diffuseColor = new Vector3f(1, 1, 1);
-            System.out.println("fake diffuse color for debugging");
+            diffuseColor = new Vector3f(color.r(), color.g(), color.b());
         }
 
         result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT, Assimp.aiTextureType_NONE, 0, color);

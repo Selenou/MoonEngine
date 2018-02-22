@@ -26,6 +26,13 @@ public class Transform {
         return new Matrix4f(this.getParentMatrix()).mul(localTransform);
     }
 
+    public Matrix4f getNormalMatrix() {
+        // we need this kind of matrix if we use non uniform scaling
+        // for normals, we only need the direction so we skip translation and scale
+        Matrix4f localRotate = new Matrix4f().rotate(this.rotation);
+        return new Matrix4f(this.getParentMatrix()).mul(localRotate);
+    }
+
     private Matrix4f getParentMatrix() {
         if(this.parentTransform != null)
             this.parentMatrix = this.parentTransform.getModelMatrix();

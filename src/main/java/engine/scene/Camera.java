@@ -107,4 +107,8 @@ public class Camera {
             this.projectionMatrix = this.createProjectionMatrix();
         }
     }
+
+    public Vector3f getPosition() {
+        return this.position;
+    }
 }

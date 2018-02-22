@@ -7,7 +7,6 @@ import engine.core.AbstractGame;
 import engine.gfx.*;
 import engine.scene.Camera;
 import engine.scene.GameObject;
-import engine.shader.DefaultShader;
 import engine.shader.PhongShader;
 import engine.utils.AssimpModelLoader;
 import org.joml.Vector3f;
@@ -32,11 +31,11 @@ public class DemoGame extends AbstractGame {
 
 
         // GFX stuff
-        Model model = AssimpModelLoader.loadModel("nanosuit/", "nanosuit.obj");
-        model.allocate();
+        Model nanosuitModel = AssimpModelLoader.loadModel("nanosuit/", "nanosuit.obj");
+        nanosuitModel.allocate();
         GameObject nanosuit = new GameObject();
-        nanosuit.addComponent("renderer", new Renderer(model, PhongShader.getInstance()));
-        nanosuit.getTransform().setScale(new Vector3f(0.2f));
+        nanosuit.addComponent("renderer", new Renderer(nanosuitModel, PhongShader.getInstance()));
+        nanosuit.getTransform().setScale(new Vector3f(0.2f,0.1f,0.1f));
         nanosuit.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
         this.scene.getRootNode().addChild(nanosuit);
     }

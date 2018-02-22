@@ -16,14 +16,17 @@ public class PhongShader extends Shader {
 
         this.compileShader();
 
-
-        this.addUniform("MVP");
-        this.addUniform("diffuseColor");
+        this.addUniform("viewProjectionMatrix");
+        this.addUniform("modelMatrix");
+        this.addUniform("normalMatrix");
+        this.addUniform("cameraPosition");
     }
 
     public void updateUniforms(GameObject object, Model model, int materialIndex) {
-        this.setUniform("MVP", CoreEngine.getInstance().getGame().getScene().getMainCamera().getViewProjectionMatrix().mul(object.getTransform().getModelMatrix()));
-        this.setUniform("diffuseColor", model.getMaterials().get(materialIndex).getDiffuseColor());
+        this.setUniform("viewProjectionMatrix", CoreEngine.getInstance().getGame().getScene().getMainCamera().getViewProjectionMatrix());
+        this.setUniform("modelMatrix", object.getTransform().getModelMatrix());
+        this.setUniform("normalMatrix", object.getTransform().getNormalMatrix());
+        this.setUniform("cameraPosition", CoreEngine.getInstance().getGame().getScene().getMainCamera().getPosition());
 
         if(model.getMaterials().get(materialIndex).getDiffusemap() != null)
             model.getMaterials().get(materialIndex).getDiffusemap().bind();
