@@ -5,6 +5,7 @@ import engine.config.Config;
 import engine.input.Input;
 import engine.core.AbstractGame;
 import engine.gfx.*;
+import engine.light.Light;
 import engine.scene.Camera;
 import engine.scene.GameObject;
 import engine.shader.PhongShader;
@@ -35,7 +36,7 @@ public class DemoGame extends AbstractGame {
         nanosuitModel.allocate();
         GameObject nanosuit = new GameObject();
         nanosuit.addComponent("renderer", new Renderer(nanosuitModel, PhongShader.getInstance()));
-        nanosuit.getTransform().setScale(new Vector3f(0.2f,0.1f,0.1f));
+        nanosuit.getTransform().setScale(new Vector3f(0.2f));
         nanosuit.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
         this.scene.getRootNode().addChild(nanosuit);
     }
