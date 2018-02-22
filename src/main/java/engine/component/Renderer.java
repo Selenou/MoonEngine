@@ -1,7 +1,7 @@
 package engine.component;
 
-import engine.model.Mesh;
-import engine.model.Model;
+import engine.gfx.Mesh;
+import engine.gfx.Model;
 import engine.shader.Shader;
 
 public class Renderer extends Component {

@@ -1,18 +1,14 @@
 package demo;
 
-import engine.audio.AudioBuffer;
-import engine.audio.AudioEngine;
-import engine.audio.AudioSource;
-
 import engine.component.Renderer;
 import engine.config.Config;
-import engine.core.CoreEngine;
 import engine.input.Input;
 import engine.core.AbstractGame;
-import engine.model.*;
+import engine.gfx.*;
 import engine.scene.Camera;
 import engine.scene.GameObject;
 import engine.shader.DefaultShader;
+import engine.shader.PhongShader;
 import engine.utils.AssimpModelLoader;
 import org.joml.Vector3f;
 
@@ -39,7 +35,7 @@ public class DemoGame extends AbstractGame {
         Model model = AssimpModelLoader.loadModel("nanosuit/", "nanosuit.obj");
         model.allocate();
         GameObject nanosuit = new GameObject();
-        nanosuit.addComponent("renderer", new Renderer(model, DefaultShader.getInstance()));
+        nanosuit.addComponent("renderer", new Renderer(model, PhongShader.getInstance()));
         nanosuit.getTransform().setScale(new Vector3f(0.2f));
         nanosuit.getTransform().setTranslation(new Vector3f(0,-1.5f,0));
         this.scene.getRootNode().addChild(nanosuit);

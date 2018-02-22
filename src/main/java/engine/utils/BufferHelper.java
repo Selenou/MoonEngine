@@ -1,6 +1,6 @@
 package engine.utils;
 
-import engine.model.Vertex;
+import engine.gfx.Vertex;
 import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 
@@ -29,6 +29,9 @@ public class BufferHelper {
             buffer.put(vertice.getPosition().z());
             buffer.put(vertice.getTexCoord().x());
             buffer.put(vertice.getTexCoord().y());
+            buffer.put(vertice.getNormal().x());
+            buffer.put(vertice.getNormal().y());
+            buffer.put(vertice.getNormal().z());
         }
 
         // flip the buffer !!! this needs to be done before it can be read by GL

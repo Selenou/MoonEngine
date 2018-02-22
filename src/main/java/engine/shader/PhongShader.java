@@ -4,17 +4,18 @@ import engine.core.CoreEngine;
 import engine.gfx.Model;
 import engine.scene.GameObject;
 
-public class DefaultShader extends Shader {
+public class PhongShader extends Shader {
 
-    private static DefaultShader instance = null;
+    private static PhongShader instance = null;
 
-    private DefaultShader() {
+    private PhongShader() {
         super();
 
-        this.addVertexShader(this.loadShader("defaultVertex.vs"));
-        this.addFragmentShader(this.loadShader("defaultFragment.fs"));
+        this.addVertexShader(this.loadShader("phongVertex.vs"));
+        this.addFragmentShader(this.loadShader("phongFragment.fs"));
 
         this.compileShader();
+
 
         this.addUniform("MVP");
         this.addUniform("diffuseColor");
@@ -28,9 +29,9 @@ public class DefaultShader extends Shader {
             model.getMaterials().get(materialIndex).getDiffusemap().bind();
     }
 
-    public static DefaultShader getInstance() {
+    public static PhongShader getInstance() {
         if(instance == null) {
-            instance = new DefaultShader();
+            instance = new PhongShader();
         }
         return instance;
     }

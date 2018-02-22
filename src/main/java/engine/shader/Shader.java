@@ -1,6 +1,6 @@
 package engine.shader;
 
-import engine.model.Model;
+import engine.gfx.Model;
 import engine.scene.GameObject;
 import engine.utils.BufferHelper;
 import engine.utils.Utils;

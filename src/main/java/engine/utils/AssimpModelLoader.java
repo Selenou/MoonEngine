@@ -1,6 +1,6 @@
 package engine.utils;
 
-import engine.model.*;
+import engine.gfx.*;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.PointerBuffer;
@@ -17,10 +17,16 @@ public class AssimpModelLoader {
         String path = Utils.getAbsolutePath("/models/" + fileDir + fileName);
 
         // the flag aiProcess_RemoveRedundantMaterials is a big tricky. If we do not precise it, there is 1 more material at index 0, which is pretty useless atm
-        AIScene scene = Assimp.aiImportFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_RemoveRedundantMaterials);
+        AIScene scene = Assimp.aiImportFile(path,
+                aiProcess_JoinIdenticalVertices |
+                aiProcess_Triangulate |
+                aiProcess_RemoveRedundantMaterials |
+                aiProcess_OptimizeMeshes |
+                aiProcess_GenNormals
+        );
 
         if (scene == null) {
-            throw new IllegalStateException("Failed to load a model !" + System.lineSeparator() + aiGetErrorString());
+            throw new IllegalStateException("Failed to load a gfx !" + System.lineSeparator() + aiGetErrorString());
         }
 
         // materials
@@ -56,16 +62,19 @@ public class AssimpModelLoader {
         ArrayList<Vertex> vertexList = new ArrayList<>();
         ArrayList<Integer> indicesList = new ArrayList<>();
 
-        ArrayList<Vector3f> vertices = new ArrayList<>();
+        ArrayList<Vector3f> vertexPosition = new ArrayList<>();
         ArrayList<Vector2f> textureCoords = new ArrayList<>();
+        ArrayList<Vector3f> vertexNormal = new ArrayList<>();
 
         AIVector3D.Buffer aiVertices = mesh.mVertices();
 
+        // position
         while(aiVertices.remaining() > 0) {
             AIVector3D aiVertex = aiVertices.get();
-            vertices.add(new Vector3f(aiVertex.x(), aiVertex.y(), aiVertex.z()));
+            vertexPosition.add(new Vector3f(aiVertex.x(), aiVertex.y(), aiVertex.z()));
         }
 
+        // texture coords
         AIVector3D.Buffer aiTexCoords = mesh.mTextureCoords(0);
         if (aiTexCoords != null){
             while (aiTexCoords.remaining() > 0) {
@@ -74,18 +83,31 @@ public class AssimpModelLoader {
             }
         }
 
-        for(int i = 0; i < vertices.size(); i++){
-            Vertex vertex = new Vertex();
-            vertex.setPosition(vertices.get(i));
+        // normal
+        AIVector3D.Buffer aiNormals = mesh.mNormals();
+        if (aiNormals != null) {
+            while (aiNormals.remaining() > 0) {
+                AIVector3D aiNormal = aiNormals.get();
+                vertexNormal.add(new Vector3f(aiNormal.x(), aiNormal.y(), aiNormal.z()));
+            }
+        }
+
+        // vertex creation
+        for(int i = 0; i < vertexPosition.size(); i++){
+            Vertex vertex = new Vertex(vertexPosition.get(i));
 
             if (!textureCoords.isEmpty())
                 vertex.setTexCoord(textureCoords.get(i));
+
+            if (!vertexNormal.isEmpty())
+                vertex.setNormal(vertexNormal.get(i));
 
             vertexList.add(vertex);
         }
 
         AIFace.Buffer aiFaces = mesh.mFaces();
 
+        // indices
         while(aiFaces.remaining() > 0) {
             AIFace aiface = aiFaces.get();
 

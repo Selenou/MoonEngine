@@ -1,7 +1,7 @@
 package engine.buffer;
 
-import engine.model.Mesh;
-import engine.model.Vertex;
+import engine.gfx.Mesh;
+import engine.gfx.Vertex;
 import engine.utils.BufferHelper;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -37,6 +37,7 @@ public class VBO {
             // then set our vertex attributes pointers
             glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * Float.BYTES, 0); // position
             glVertexAttribPointer(1, 2, GL_FLOAT, false, Vertex.SIZE * Float.BYTES, 3 * Float.BYTES ); // texture
+            glVertexAttribPointer(2, 3, GL_FLOAT, false, Vertex.SIZE * Float.BYTES, 5 * Float.BYTES ); // normal
 
             // unbind vbo
             glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -47,9 +48,11 @@ public class VBO {
         this.vao.bind();
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
+            glEnableVertexAttribArray(2);
             glDrawElements(GL_TRIANGLES, this.size, GL_UNSIGNED_INT, 0);
             glDisableVertexAttribArray(0);
             glDisableVertexAttribArray(1);
+            glDisableVertexAttribArray(2);
         this.vao.unbind();
     }
 

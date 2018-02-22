@@ -1,4 +1,4 @@
-package engine.model;
+package engine.gfx;
 
 import engine.buffer.VBO;
 

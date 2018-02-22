@@ -1,4 +1,4 @@
-package engine.model;
+package engine.gfx;
 
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBindTexture;
