@@ -42,6 +42,7 @@ public class Camera {
 
         float amount = 10 * delta;
 
+        //todo make a component for this
         if(input.isKeyHeld(GLFW_KEY_W))
             this.move(this.forward, amount);
         if(input.isKeyHeld(GLFW_KEY_S))

@@ -1,7 +1,11 @@
 package demo;
 
+import engine.audio.AudioBuffer;
+import engine.audio.AudioEngine;
+import engine.audio.AudioSource;
 import engine.component.Renderer;
 import engine.config.Config;
+import engine.core.CoreEngine;
 import engine.input.Input;
 import engine.core.AbstractGame;
 import engine.gfx.*;
@@ -20,7 +24,6 @@ public class DemoGame extends AbstractGame {
     public DemoGame() {
         super();
 
-        /*
         // Audio stuff
         AudioEngine audioEngine = CoreEngine.getInstance().getAudioEngine();
         audioEngine.addSoundBuffer("zelda", new AudioBuffer("zelda.ogg"));
@@ -28,8 +31,6 @@ public class DemoGame extends AbstractGame {
         audioEngine.getSoundSource("bgm").setBuffer(audioEngine.getSoundBuffer("zelda").getBufferId());
         audioEngine.getSoundSource("bgm").setLooping(true);
         audioEngine.getSoundSource("bgm").play();
-        */
-
 
         // GFX stuff
         Model nanosuitModel = AssimpModelLoader.loadModel("nanosuit/", "nanosuit.obj");

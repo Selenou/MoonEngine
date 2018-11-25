@@ -5,7 +5,7 @@ Java based game engine
 [IntelliJ IDEA](https://www.jetbrains.com/idea/)
 
 ## How to use
-+ use graddle to build the project
++ use gradle to build the project
 + for mac user : opengl 4.1 + forward compat
 + press F1 for normal mode, F2 for wireframe mode
 + enjoy :)
