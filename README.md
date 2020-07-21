@@ -19,9 +19,6 @@ Java based game engine
 + Lighting advanced (deferred shading)
 + Animation
 
-## Site
-https://selenou.github.io/MoonEngine/
-
 ## Library
 + [LWJGL3](https://www.lwjgl.org/)
     + Assimp bindings (import and export various 3d model formats)
